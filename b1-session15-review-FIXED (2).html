@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B1 Class 15: Final Review</title>
+    <style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:#5B5091;min-height:100vh;padding:20px}
+.container{max-width:800px;margin:0 auto}
+.header{background:#fff;border-radius:20px;padding:30px;margin-bottom:20px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.2)}
+.header h1{color:#5B5091;font-size:1.4em}
+.header p{color:#888}
+.badge{background:#ef4444;color:#fff;padding:4px 12px;border-radius:20px;font-size:.8em}
+.level-badge{background:#5B5091;color:#fff;padding:6px 16px;border-radius:20px;font-size:.9em;display:inline-block;margin-bottom:10px}
+.card{background:#fff;border-radius:16px;padding:25px;margin-bottom:20px}
+.card h2{color:#5B5091;margin-bottom:15px}
+label{font-weight:600;color:#333;display:block;margin-bottom:8px}
+input[type="text"],select{width:100%;padding:14px;border:2px solid #e0e0e0;border-radius:12px;font-size:16px;margin-bottom:15px}
+input:focus,select:focus{outline:none;border-color:#5B5091}
+.btn{background:#5B5091;color:#fff;border:none;padding:14px 32px;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;width:100%;margin-top:10px;transition:all .2s}
+.btn:hover{background:#4a4080}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn-orange{background:#F5A623}
+.btn-secondary{background:#f5f5f5;color:#333}
+.section{display:none}
+.section.active{display:block}
+.reading-box{background:#f8f9fa;border-radius:12px;padding:20px;margin-bottom:20px;border-left:4px solid #5B5091;line-height:1.8}
+.question{background:#f8f9fa;border-radius:12px;padding:20px;margin:15px 0;border:1px solid #eee}
+.question h4{margin-bottom:15px;color:#333}
+.option{padding:14px;border:2px solid #e0e0e0;border-radius:10px;cursor:pointer;margin-bottom:10px;display:flex;align-items:center;gap:12px}
+.option:hover{border-color:#5B5091;background:#f3f0ff}
+.option.selected{border-color:#5B5091;background:#e8e4f5}
+.option.correct{border-color:#22c55e;background:#f0fdf4}
+.option.incorrect{border-color:#ef4444;background:#fef2f2}
+.circle{width:20px;height:20px;border:2px solid #ccc;border-radius:50%;flex-shrink:0}
+.option.selected .circle{border-color:#5B5091;background:#5B5091}
+textarea{width:100%;min-height:120px;padding:14px;border:2px solid #e0e0e0;border-radius:12px;font-size:16px;font-family:inherit;resize:vertical}
+textarea:focus{outline:none;border-color:#5B5091}
+.progress{height:8px;background:#e0e0e0;border-radius:4px;margin-bottom:20px}
+.progress-bar{height:100%;background:#F5A623;border-radius:4px;transition:width .3s}
+.progress-text{display:flex;justify-content:space-between;margin-bottom:8px;font-size:14px;color:#666}
+.score-card{background:linear-gradient(135deg,#5B5091,#7B6DB0);border-radius:20px;padding:35px;color:#fff;text-align:center}
+.score-big{font-size:4em;font-weight:700}
+.scores{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:20px}
+.scores>div{background:rgba(255,255,255,.15);border-radius:12px;padding:12px}
+.scores label{font-size:.75em;opacity:.9}
+.scores span{font-size:1.4em;font-weight:700;display:block}
+.cefr-box{background:linear-gradient(135deg,#1565C0,#1976D2);color:#fff;border-radius:12px;padding:20px;margin-top:20px;text-align:center}
+.cefr-box h3{margin-bottom:10px}
+.cefr-level{font-size:2em;font-weight:700}
+.not-submitted{background:#ffebee;border:2px solid #ef5350;border-radius:12px;padding:20px;text-align:center;animation:pulse-warning 2s infinite}
+.not-submitted h3{color:#c62828;margin-bottom:10px}
+@keyframes pulse-warning{0%,100%{box-shadow:0 0 0 0 rgba(239,83,80,.4)}50%{box-shadow:0 0 0 10px rgba(239,83,80,0)}}
+.submitted-success{background:#e8f5e9;border:2px solid #66bb6a;border-radius:12px;padding:20px;text-align:center;display:none}
+.submitted-success h3{color:#2e7d32}
+.prompt-box{background:#f3f0ff;border:1px solid #d4ccf0;border-radius:12px;padding:20px;margin-bottom:20px}
+.prompt-box h4{color:#5B5091;margin-bottom:10px}
+.word-count{text-align:right;color:#888;font-size:14px;margin-top:8px}
+.feedback{background:#f3f0ff;border:1px solid #5B5091;border-radius:12px;padding:20px;margin-top:15px}
+.hidden{display:none}
+.nav-buttons{display:flex;justify-content:space-between;margin-top:20px;gap:10px}
+@media(max-width:600px){.scores{grid-template-columns:repeat(3,1fr)}.nav-buttons{flex-direction:column}}
+
+.scenario-option{padding:15px;border:2px solid #e0e0e0;border-radius:12px;cursor:pointer;transition:all .2s;margin-bottom:10px}
+.scenario-option:hover{border-color:#5B5091;background:#f3f0ff}
+.scenario-option.selected{border-color:#5B5091;background:#e8e4f5}
+.chat-container{background:#f5f5f5;border-radius:16px;padding:20px;margin:20px 0;min-height:200px;max-height:400px;overflow-y:auto}
+.chat-bubble{max-width:85%;padding:12px 16px;border-radius:16px;margin-bottom:12px;line-height:1.5}
+.chat-ai{background:#5B5091;color:#fff;border-bottom-left-radius:4px}
+.chat-user{background:#fff;border:2px solid #5B5091;color:#333;border-bottom-right-radius:4px}
+.chat-row{display:flex;margin-bottom:12px}
+.chat-row.ai{justify-content:flex-start}
+.chat-row.user{justify-content:flex-end}
+.chat-label{font-size:11px;color:#666;margin-bottom:4px;font-weight:600}
+.mic-btn{width:80px;height:80px;border-radius:50%;background:#5B5091;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin:15px auto;transition:all .2s}
+.mic-btn:hover{background:#4a4080;transform:scale(1.05)}
+.mic-btn:disabled{background:#ccc;cursor:not-allowed;transform:none}
+.mic-btn.recording{background:#ef4444;animation:pulse-rec 1.5s infinite}
+.mic-btn svg{width:36px;height:36px;fill:#fff}
+@keyframes pulse-rec{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.4)}50%{box-shadow:0 0 0 15px rgba(239,68,68,0)}}
+.status-text{text-align:center;color:#666;margin:10px 0;font-size:14px}
+.exchange-counter{text-align:center;color:#5B5091;font-weight:600;margin-bottom:10px}
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="level-badge">CEFR Level B1 - Intermediate</div>
+        <h1>📘 Class 15: Final Review <span class="badge">FINAL</span></h1>
+        <p>Week 8 - Practical Skills 3 Complete Review</p>
+    </div>
+
+    <div class="section active" id="start">
+        <div class="card">
+            <h2>Welcome to Your Final Review!</h2>
+            <p style="color:#666;margin-bottom:20px">This review covers everything you learned in PS3:</p>
+            <ul style="color:#666;margin-bottom:20px;padding-left:20px">
+                <li>Holiday Traditions & Comparisons</li>
+                <li>Banking & Financial Situations</li>
+                <li>Shopping & Open-Air Markets</li>
+                <li>Household Chores & Cleaning</li>
+                <li>Transportation & Commuting</li>
+                <li>School Communication</li>
+                <li>Travel Planning & Phrasal Verbs</li>
+            </ul>
+            <label>Your Full Name</label>
+            <input type="text" id="studentName" placeholder="Enter your name...">
+            <label>Your Class</label>
+            <input type="hidden" id="teacherName" value="">
+            <select id="studentClass" onchange="setTeacher(this)">
+                <option value="">Select your class...</option>
+                <option value="3088" data-teacher="Laura Ebel">3088 -- Mon/Wed 9:00 AM (Laura)</option>
+                <option value="3090" data-teacher="Laura Ebel">3090 -- Mon/Wed 6:30 PM (Laura)</option>
+                <option value="3095" data-teacher="Laura Ebel">3095 -- Tue/Thu 11:00 AM (Laura)</option>
+                <option value="3098" data-teacher="Jonelle Williams">3098 -- Tue/Thu 6:30 PM (Jonelle)</option>
+                <option value="3101" data-teacher="Jonelle Williams">3101 -- Tue/Thu 8:30 PM (Jonelle)</option>
+            </select>
+            <button class="btn" onclick="startQuiz()">Start Final Review</button>
+        </div>
+    </div>
+
+    <div class="section" id="s1">
+        <div class="card">
+            <div class="progress-text"><span>Section 1 of 5</span><span>20%</span></div>
+            <div class="progress"><div class="progress-bar" style="width:20%"></div></div>
+            <h2>Reading Comprehension</h2>
+            <div class="reading-box">
+                <p><strong>Planning a Trip</strong></p>
+                <p>Carlos and his family are planning a trip to New York City next month. They have been saving money for this vacation for over a year. "This will be the most exciting trip we have ever taken!" said Carlos.</p>
+                <p>They need to book a hotel, but the hotels in Manhattan are more expensive than they expected. Carlos found a cheaper hotel in Brooklyn that has better reviews than some Manhattan hotels.</p>
+                <p>"We should take the subway," his wife suggested. "It is faster than taking a taxi, and much cheaper too." Carlos agreed, but he was worried about getting lost.</p>
+                <p>They plan to visit the Statue of Liberty, Central Park, and Times Square. Carlos wants to try authentic New York pizza because his friend told him it is the best pizza in the world. They will be staying for five days, and they are going to take lots of pictures.</p>
+            </div>
+            <div id="readingQuestions"></div>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="goBack0()">Back</button>
+                <button class="btn" onclick="checkS1()">Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="s2">
+        <div class="card">
+            <div class="progress-text"><span>Section 2 of 5</span><span>40%</span></div>
+            <div class="progress"><div class="progress-bar" style="width:40%"></div></div>
+            <h2>Vocabulary Matching</h2>
+            <div class="prompt-box"><h4>Match each word with its correct definition</h4><p style="color:#666">Tap a word on the left, then tap its matching definition on the right.</p></div>
+            <div id="vocabQuestions"></div>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="goTo('s1')">Back</button>
+                <button class="btn" onclick="checkS2()">Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="s3">
+        <div class="card">
+            <div class="progress-text"><span>Section 3 of 5</span><span>60%</span></div>
+            <div class="progress"><div class="progress-bar" style="width:60%"></div></div>
+            <h2>Writing</h2>
+            <div class="prompt-box">
+                <h4>Writing Task</h4>
+                <p>Write about a <strong>trip you are planning</strong> OR <strong>a trip you took</strong> (6-8 sentences).</p>
+                <p style="margin-top:10px;color:#666">Include:</p>
+                <ul style="padding-left:20px;color:#666">
+                    <li>Where you are going / went</li>
+                    <li>How you will travel / traveled (transportation)</li>
+                    <li>Use comparatives (cheaper, better, more exciting)</li>
+                    <li>Use future tense (will, going to) OR past tense</li>
+                </ul>
+            </div>
+            <textarea id="writing" placeholder="Write here..." oninput="updateWC()"></textarea>
+            <div class="word-count">Words: <span id="wc">0</span></div>
+            <div class="feedback hidden" id="wFeedback"></div>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="goTo('s2')">Back</button>
+                <button class="btn" id="wBtn" onclick="checkWriting()">Get Feedback</button>
+                <button class="btn hidden" id="wNext" onclick="goTo('s4')">Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="s4">
+        <div class="card">
+            <div class="progress-text"><span>Section 4 of 5</span><span>80%</span></div>
+            <div class="progress"><div class="progress-bar" style="width:80%"></div></div>
+            <h2>Speaking - Role Play</h2>
+            
+            <div id="scenarioSelection">
+                <div class="prompt-box">
+                    <h4>Choose a role-play scenario:</h4>
+                    <p style="color:#666">You will have a conversation with 6 exchanges.</p>
+                </div>
+                <div class="scenario-option" onclick="selectScenario(1)">
+                    <strong>🏦 Scenario 1: At the Bank</strong>
+                    <p style="color:#666;font-size:14px;margin-top:5px">You want to open a bank account or ask about services.</p>
+                </div>
+                <div class="scenario-option" onclick="selectScenario(2)">
+                    <strong>🛒 Scenario 2: Bargaining and Shopping Deals</strong>
+                    <p style="color:#666;font-size:14px;margin-top:5px">You are shopping. Compare prices, ask about discounts, and try to bargain for a better deal.</p>
+                </div>
+                <div class="scenario-option" onclick="selectScenario(3)">
+                    <strong>✈️ Scenario 3: Planning a Trip</strong>
+                    <p style="color:#666;font-size:14px;margin-top:5px">Discuss travel plans with a friend or travel agent.</p>
+                </div>
+            </div>
+
+            <div id="rolePlayArea" style="display:none">
+                <div style="background:#e8e4f5;padding:10px 15px;border-radius:8px;margin-bottom:15px;text-align:center">
+                    <strong id="scenarioTitle" style="color:#5B5091"></strong>
+                </div>
+                <div class="exchange-counter" id="exchangeCounter">Exchange 1 of 6</div>
+                <div class="chat-container" id="chatContainer"></div>
+                <div class="status-text" id="statusText">Click the microphone to respond</div>
+                <button class="mic-btn" id="micBtn" onclick="toggleMic()" disabled>
+                    <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5-3c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
+                </button>
+            </div>
+
+            <div class="feedback hidden" id="sFeedback"></div>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="goTo('s3')">Back</button>
+                <button class="btn" id="sBtn" onclick="finishSpeaking()" style="display:none">Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="s5">
+        <div class="card">
+            <div class="progress-text"><span>Section 5 of 5</span><span>100%</span></div>
+            <div class="progress"><div class="progress-bar" style="width:100%"></div></div>
+            <h2>Grammar Quiz</h2>
+            <div id="grammarQuestions"></div>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="goTo('s4')">Back</button>
+                <button class="btn btn-orange" onclick="submitFinal()">Submit Final Review</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="results">
+        <div class="score-card">
+            <p style="opacity:.8">Congratulations! Practical Skills 3 Complete!</p>
+            <div class="score-big" id="finalPct">0%</div>
+            <p id="studentDisplay"></p>
+            <div class="scores">
+                <div><label>Reading</label><span id="scL">0/3</span></div>
+                <div><label>Vocab</label><span id="scV">0/6</span></div>
+                <div><label>Writing</label><span id="scW">0/20</span></div>
+                <div><label>Speaking</label><span id="scS">0/20</span></div>
+                <div><label>Grammar</label><span id="scG">0/8</span></div>
+            </div>
+            <div class="cefr-box">
+                <h3>Your CEFR Progress</h3>
+                <div class="cefr-level" id="cefrLevel">B1</div>
+                <p id="cefrMessage">You have completed the B1 Intermediate level!</p>
+            </div>
+            <div style="margin-top:25px">
+                <div class="not-submitted" id="notSubmittedWarning">
+                    <h3>NOT YET SUBMITTED</h3>
+                    <p>Click the button below to submit your results to your teacher</p>
+                </div>
+                <div class="submitted-success" id="submittedSuccess">
+                    <h3>Submitted Successfully!</h3>
+                    <p>Your teacher will receive your results</p>
+                </div>
+                <button class="btn btn-orange" id="submitBtn" onclick="submitToTeacher()" style="margin-top:15px;font-size:20px;padding:20px">Submit to Teacher</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const SESSION='15';
+function setTeacher(sel){var opt=sel.options[sel.selectedIndex];var th=document.getElementById('teacherName');if(th)th.value=opt?(opt.getAttribute('data-teacher')||''):'';}
+let studentName='',studentClass='',scores={l:0,v:0,w:0,s:0,g:0},writingText='';
+let readingAnswers=[],grammarAnswers=[];
+
+let selectedScenario=0;
+let currentExchange=0;
+let transcript=[];
+let conversationHistory=[]; // For Claude API: [{role:'user',content:'...'},{role:'assistant',content:'...'}]
+let goalState={}; // Tracks which scenario goals have been achieved (key -> truthy value or null)
+let isRecording=false;
+let recognition=null;
+
+// ============================================================
+// SCENARIO SPECS — Goal-tracking conversation format
+// Each scenario has: opener, instructions (system prompt for Claude),
+// goals (tracked internally — Claude steers toward unmet goals).
+// To add/edit a scenario, follow the structure below.
+// ============================================================
+const scenarios={
+    1:{
+        title:'At the Bank',
+        aiRole:'Bank Teller',
+        userRole:'Customer',
+        max_turns:20,
+        opener:"Hi, welcome to Jeeko Bank! How can I help you today?",
+        instructions:"You are a friendly bank teller helping someone open an account OVER THE PHONE.\n\nConversation rules:\n- Be conversational and natural.\n- Ask one clear question at a time, then wait for the response.\n- Do NOT ask for: name, address, phone number, social security number, or any other personal details.\n- Do NOT ask them to SHOW anything (this is a phone call). Ask what they HAVE.\n- Do NOT end the conversation until the required lesson goals are satisfied.\n- Use simple B1-level English.\n- Keep responses SHORT (1-2 sentences).\n\nClosing behavior:\n- Near the end (when all goals are met), ask: \"Do you have any questions about banking with us?\" (or similar).\n- If the student asks a banking-related question, you MUST answer it helpfully before closing.\n- When everything is complete, thank them and confirm the account will be set up.",
+        goals:[
+            {key:"account_type",prompt:"Account type",kind:"enum",options:["checking","savings","joint","business"],priority:1},
+            {key:"id",prompt:"ID type",kind:"text",keywords:["license","passport","driver","drivers","id"],priority:2},
+            {key:"deposit",prompt:"Initial deposit amount",kind:"number",keywords:["dollar","dollars","hundred","thousand","deposit"],priority:3},
+            {key:"banking_vocabulary",prompt:"Banking vocabulary usage",kind:"vocabulary",valid_terms:["interest","interest rate","rate","withdraw","withdrawal","balance","account balance","debit card","debit","credit card","credit","atm","cash machine","overdraft","overdraft fee","fee","fees","monthly fee","transfer","wire transfer","statement","bank statement","routing number","routing","direct deposit","mobile banking","online banking"],min_matches:1,priority:4}
+        ]
+    },
+    2:{
+        title:'Bargaining and Shopping Deals',
+        aiRole:'Shop Assistant',
+        userRole:'Customer',
+        max_turns:30,
+        opener:"Hi! Welcome to the shop! Are you looking for something specific today?",
+        instructions:"You are a friendly shop assistant or vendor helping a customer who is shopping, comparing prices, and practicing bargaining at a store or flea market.\n\nConversation rules:\n- Be warm, natural, and helpful — like a real shop assistant who enjoys chatting with customers.\n- Ask ONE question at a time, then STOP and WAIT for the answer.\n- Keep your responses to 1-2 sentences maximum.\n- Use natural B1-level English. Model correct grammar naturally without making the student feel embarrassed.\n- Encourage the student to use comparative and superlative adjectives, shopping vocabulary, and negotiation phrases throughout the conversation.\n\n⛔ QUESTION AND ANSWER RULE — THIS OVERRIDES EVERYTHING ELSE:\n- Before every response you send, ask yourself: 'Did my LAST message end with a question?' If YES — you MUST wait for the student's answer. You may NOT close the conversation, say goodbye, summarize, or add any closing message.\n- NEVER place a question and a goodbye in the same message. They cannot appear together under any circumstances.\n- The ONLY exception to this rule is the UNRESPONSIVE STUDENT rule below.\n- If you are unsure whether to close — do NOT close. Ask one more follow-up question instead.\n\nUNRESPONSIVE STUDENT RULE:\n- If a student does not respond or gives a completely empty/unreadable answer after you asked a question, try ONE more time with a simpler, shorter version of the same question. Example: 'Sorry, I didn't catch that! Let me try again — do you like this item? Yes or no?'\n- If the student still does not respond after your second attempt, then — and only then — you may close the conversation warmly: 'It seems like we got disconnected! Great practice today — see you next time!'\n- This exception ONLY applies after 2 unanswered attempts. Not before.\n\nTURN BUDGET — important:\n- The conversation has a budget of 30 turns total (AI + student combined).\n- Use turns 1-24 to cover all lesson goals naturally and conversationally.\n- Use turns 25-28 to wrap up: ask the closing question and wait for the answer.\n- Use turns 29-30 to say goodbye — but ONLY after the student has answered your last question.\n- Do not rush through goals. Spend time on each one naturally.\n- If all goals are complete before turn 24, you may have a natural free conversation about shopping until the turn budget is used.\n\nOFF-TOPIC BEHAVIOR — very important:\n- If the student starts talking about something unrelated to shopping, bargaining, prices, or comparisons, gently redirect them. Use phrases like: 'Ha, good point! But let's get back to shopping — ' or 'Interesting! Now, speaking of the jacket — ' Never make the student feel bad. Just steer back with a smile.\n\nSIMPLIFICATION BEHAVIOR — very important:\n- If the student seems confused or says 'I don't understand', immediately simplify. Break the question into easier words or give options. For example, instead of 'Is the price negotiable for you?', try 'Is $50 OK? Or do you want a lower price?'\n- Never repeat the exact same confusing question. Always try a simpler version.\n\nShopping scenario flow (guide — not a strict script):\n1. Greet the customer and find out what they are looking for.\n2. Present 2-3 options with different prices and qualities — encourage the student to compare them using comparative adjectives (cheaper, more expensive, better quality...).\n3. Ask which option they prefer and why — encourage superlatives (the best, the most comfortable, the cheapest...).\n4. Introduce a price negotiation moment: the student can ask for a discount, make a counteroffer, or ask if the price is negotiable.\n5. Reach an agreement or a decision.\n6. Ask a closing question and wait for the answer before saying goodbye.\n\nClosing behavior:\n- Near the end, ask: 'Is there anything else I can help you with today?' — then STOP and WAIT.\n- Only after the student has answered that question, close warmly: 'It was a pleasure! Enjoy your purchase and come back soon!'",
+        goals:[
+            {key:"item_identification",prompt:"Student states what they are looking for or interested in buying",kind:"text",keywords:["looking for","i want","i need","i'd like","i would like","i am interested","can i see","show me","jacket","shoes","shirt","dress","phone","car","bike","computer"],priority:1},
+            {key:"comparative_adjective",prompt:"Student uses at least one comparative adjective to compare two items or prices",kind:"vocabulary",valid_terms:["cheaper","more expensive","better","worse","larger","smaller","more comfortable","more stylish","more affordable","more popular","more durable","heavier","lighter","bigger","nicer","faster","than","more than","less than"],min_matches:1,priority:2},
+            {key:"superlative_adjective",prompt:"Student uses at least one superlative adjective",kind:"vocabulary",valid_terms:["the cheapest","the most expensive","the best","the worst","the most comfortable","the most stylish","the most affordable","the most popular","the highest","the lowest","the biggest","the smallest","the nicest","the most beautiful","the lightest"],min_matches:1,priority:3},
+            {key:"price_negotiation",prompt:"Student attempts to negotiate the price, ask for a discount, or make a counteroffer",kind:"vocabulary",valid_terms:["negotiable","negotiate","discount","deal","offer","would you take","how about","can i get","better price","too expensive","lower price","reduce","cheaper","is the price","can you do","what about"],min_matches:1,priority:4},
+            {key:"shopping_vocabulary",prompt:"Student uses at least 2 shopping vocabulary words from the lesson",kind:"vocabulary",valid_terms:["price","discount","deal","refund","exchange","bargain","affordable","receipt","purchase","quality","material","brand","sale","on sale","vendor","loyalty program","it's a deal","i'll take it","cash","credit card"],min_matches:2,priority:5}
+        ]
+    },
+    3:{
+        title:'Planning a Trip',
+        aiRole:'Travel Agent',
+        userRole:'Customer',
+        max_turns:20,
+        opener:"Hello! Welcome to Sunshine Travel Agency. Are you planning a vacation? Where would you like to go?",
+        instructions:"You are a friendly travel agent at Sunshine Travel Agency, helping a customer who is practicing English at a B1 (intermediate) level.\n\nConversation rules:\n- Be conversational and natural.\n- Ask one clear question at a time, then wait for the response.\n- Use simple B1-level English.\n- Keep responses SHORT (1-2 sentences).\n- Listen carefully to where they want to go and respond with relevant suggestions.\n- Don't repeat earlier questions.\n- After the customer has shared their destination, dates, and travel preferences, wrap up by promising to send their itinerary.",
+        goals:[
+            // PLACEHOLDER \u2014 fill in with proper goals when ready (e.g., destination, dates, travel_method, accommodation)
+            {key:"travel_vocabulary",prompt:"Travel vocabulary usage",kind:"vocabulary",valid_terms:["flight","hotel","beach","mountain","city","tour","ticket","passport","luggage","airport","destination","resort"],min_matches:2,priority:1}
+        ]
+    }
+};
+
+const readingQBank=[
+    {q:"How long have Carlos and his family been saving for this trip?",opts:["Six months","Over a year","Two years"],correct:1},
+    {q:"Why did Carlos choose a hotel in Brooklyn?",opts:["It is closer to Manhattan","It is cheaper with better reviews","His friend lives there"],correct:1},
+    {q:"According to his wife, why should they take the subway?",opts:["It is more comfortable","It is faster and cheaper","It is safer"],correct:1},
+    {q:"What does Carlos want to try in New York?",opts:["Hot dogs","Authentic pizza","Hamburgers"],correct:1},
+    {q:"How many days will they stay in New York?",opts:["Three days","Five days","One week"],correct:1}
+];
+
+const grammarQBank=[
+    {q:"This hotel is _____ than the one downtown.",opts:["cheaper","more cheap","cheapest"],correct:0},
+    {q:"She speaks English _____ than her brother.",opts:["more fluently","fluently","most fluently"],correct:0},
+    {q:"This is the _____ restaurant in the city.",opts:["most expensive","more expensive","expensiver"],correct:0},
+    {q:"I _____ visit my grandmother next weekend.",opts:["will","going to","am go"],correct:0},
+    {q:"They _____ to Paris next summer.",opts:["are going to travel","will traveling","going travel"],correct:0},
+    {q:"You _____ bring your passport to the bank.",opts:["should","should to","must to"],correct:0},
+    {q:"The train is _____ than the bus, but slower.",opts:["more comfortable","comfortabler","most comfortable"],correct:0},
+    {q:"We _____ our hotel before the trip.",opts:["have to book","have book","must to book"],correct:0},
+    {q:"This market has _____ prices in town.",opts:["the lowest","the lower","more low"],correct:0},
+    {q:"I _____ the dishes after dinner.",opts:["will do","will doing","going do"],correct:0}
+];
+
+const vocabMatchBank=[
+    {term:"Deposit",def:"Money you put in the bank regularly"},
+    {term:"Open-air market",def:"A place to buy fresh fruits and vegetables outdoors"},
+    {term:"Housework",def:"The work you do to keep your house clean"},
+    {term:"Commuting",def:"Traveling to work every day"},
+    {term:"Check in",def:"Arrive and register at a hotel"},
+    {term:"Put down",def:"The opposite of pick up"},
+    {term:"Debit card",def:"A card to pay directly from your bank account"},
+    {term:"Look forward to",def:"To feel excited about something in the future"},
+    {term:"Receipt",def:"A document showing how much money you spent"},
+    {term:"Set off",def:"To start traveling on a trip"}
+];
+let vocabPairs=[],vocabSelectedTerm=null,vocabMatched=0,vocabTotal=6;
+
+function shuffle(arr){
+    for(let i=arr.length-1;i>0;i--){
+        const j=Math.floor(Math.random()*(i+1));
+        [arr[i],arr[j]]=[arr[j],arr[i]];
+    }
+    return arr;
+}
+
+function initQuestions(){
+    const rQs=shuffle([...readingQBank]).slice(0,3);
+    let rHTML='';
+    rQs.forEach((q,i)=>{
+        const opts=q.opts.map((o,idx)=>({text:o,isCorrect:idx===q.correct}));
+        shuffle(opts);
+        readingAnswers[i]=opts.findIndex(o=>o.isCorrect);
+        rHTML+='<div class="question"><h4>'+(i+1)+'. '+q.q+'</h4>';
+        opts.forEach((o,j)=>{
+            rHTML+='<div class="option" onclick="sel(this)" data-v="'+j+'"><div class="circle"></div>'+o.text+'</div>';
+        });
+        rHTML+='</div>';
+    });
+    document.getElementById('readingQuestions').innerHTML=rHTML;
+
+    vocabPairs=shuffle([...vocabMatchBank]).slice(0,6);
+    vocabMatched=0;vocabTotal=6;vocabSelectedTerm=null;
+    const shuffledDefs=shuffle(vocabPairs.map((p,i)=>({def:p.def,idx:i})));
+    let vHTML='<div style="display:grid;grid-template-columns:1fr 1fr;gap:15px">';
+    vHTML+='<div><h4 style="color:#5B5091;margin-bottom:10px;text-align:center">Words</h4>';
+    vocabPairs.forEach((p,i)=>{
+        vHTML+='<div class="option match-term" data-idx="'+i+'" onclick="selectTerm(this)" style="justify-content:center;font-weight:600;text-align:center">'+p.term+'</div>';
+    });
+    vHTML+='</div><div><h4 style="color:#5B5091;margin-bottom:10px;text-align:center">Definitions</h4>';
+    shuffledDefs.forEach(d=>{
+        vHTML+='<div class="option match-def" data-idx="'+d.idx+'" onclick="selectDef(this)" style="font-size:14px;text-align:center;justify-content:center">'+d.def+'</div>';
+    });
+    vHTML+='</div></div>';
+    vHTML+='<div id="matchFeedback" style="text-align:center;margin-top:15px;font-weight:600"></div>';
+    document.getElementById('vocabQuestions').innerHTML=vHTML;
+
+    const gQs=shuffle([...grammarQBank]).slice(0,8);
+    let gHTML='';
+    gQs.forEach((q,i)=>{
+        const opts=q.opts.map((o,idx)=>({text:o,isCorrect:idx===q.correct}));
+        shuffle(opts);
+        grammarAnswers[i]=opts.findIndex(o=>o.isCorrect);
+        gHTML+='<div class="question" data-c="'+grammarAnswers[i]+'"><h4>'+(i+1)+'. '+q.q+'</h4>';
+        opts.forEach((o,j)=>{
+            gHTML+='<div class="option" onclick="sel(this)" data-v="'+j+'"><div class="circle"></div>'+o.text+'</div>';
+        });
+        gHTML+='</div>';
+    });
+    document.getElementById('grammarQuestions').innerHTML=gHTML;
+}
+
+function startQuiz(){
+    studentName=document.getElementById('studentName').value.trim();
+    studentClass=document.getElementById('studentClass').value;
+    if(!studentName){alert('Please enter your name');return;}
+    if(!studentClass){alert('Please select your class');return;}
+    setTeacher(document.getElementById('studentClass'));
+    initQuestions();
+    goTo('s1');
+}
+
+function goTo(id){
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0,0);
+}
+
+function goBack0(){
+    document.getElementById('s1').classList.remove('active');
+    document.getElementById('start').classList.add('active');
+}
+
+function sel(el){
+    el.parentElement.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
+    el.classList.add('selected');
+}
+
+function checkS1(){
+    let correct=0;
+    document.querySelectorAll('#readingQuestions .question').forEach((q,i)=>{
+        const selected=q.querySelector('.option.selected');
+        if(selected&&parseInt(selected.dataset.v)===readingAnswers[i])correct++;
+    });
+    scores.l=correct;
+    goTo('s2');
+}
+
+function selectTerm(el){
+    if(el.classList.contains('matched'))return;
+    document.querySelectorAll('.match-term').forEach(t=>t.classList.remove('selected'));
+    el.classList.add('selected');
+    vocabSelectedTerm=parseInt(el.dataset.idx);
+}
+
+function selectDef(el){
+    if(el.classList.contains('matched')||vocabSelectedTerm===null)return;
+    const defIdx=parseInt(el.dataset.idx);
+    const termEl=document.querySelector('.match-term[data-idx="'+vocabSelectedTerm+'"');
+    if(defIdx===vocabSelectedTerm){
+        termEl.classList.remove('selected');termEl.classList.add('matched');
+        termEl.style.background='#f0fdf4';termEl.style.borderColor='#22c55e';termEl.style.opacity='0.7';termEl.style.cursor='default';
+        el.classList.add('matched');el.style.background='#f0fdf4';el.style.borderColor='#22c55e';el.style.opacity='0.7';el.style.cursor='default';
+        vocabMatched++;
+        document.getElementById('matchFeedback').innerHTML='<span style="color:#22c55e">Correct! '+vocabMatched+'/'+vocabTotal+' matched</span>';
+    }else{
+        termEl.classList.remove('selected');
+        termEl.style.background='#fef2f2';termEl.style.borderColor='#ef4444';
+        el.style.background='#fef2f2';el.style.borderColor='#ef4444';
+        setTimeout(()=>{
+            if(!termEl.classList.contains('matched')){termEl.style.background='';termEl.style.borderColor='#e0e0e0';}
+            if(!el.classList.contains('matched')){el.style.background='';el.style.borderColor='#e0e0e0';}
+        },800);
+        document.getElementById('matchFeedback').innerHTML='<span style="color:#ef4444">Try again!</span>';
+    }
+    vocabSelectedTerm=null;
+}
+
+function checkS2(){
+    scores.v=vocabMatched;
+    goTo('s3');
+}
+
+function updateWC(){
+    document.getElementById('wc').textContent=document.getElementById('writing').value.trim().split(/\s+/).filter(w=>w).length;
+}
+
+function checkWriting(){
+    writingText=document.getElementById('writing').value;
+    const t=writingText.toLowerCase();
+    const wc=t.trim().split(/\s+/).filter(w=>w).length;
+    
+    if(wc<15){
+        alert('Please write at least 15 words');
+        return;
+    }
+    
+    let errorCount=0;
+    if(/more cheaper|more better|more faster|most cheapest/i.test(t)) errorCount++;
+    
+    const hasComparative=/more \w+|.+er than|better|worse|cheaper|faster|easier/i.test(t);
+    const hasFuture=/will |going to |'ll /i.test(t);
+    const hasTravelVocab=/trip|travel|visit|hotel|flight|train|bus|airport|vacation|beach|city/i.test(t);
+    
+    let score=0;
+    score+=(hasComparative?6:0);
+    score+=(hasFuture?5:0);
+    score+=(hasTravelVocab?4:0);
+    score+=(wc>=60?5:wc>=40?3:wc>=20?2:1);
+    score-=(errorCount*3);
+    score=Math.max(0,Math.min(20,Math.round(score)));
+    
+    scores.w=score;
+    
+    let feedbackHTML='<h4>Feedback</h4>';
+    feedbackHTML+='<p>Word count: '+wc+'</p>';
+    if(errorCount>0){
+        feedbackHTML+='<p style="color:#ef4444"><strong>Grammar errors found: '+errorCount+'</strong></p>';
+    }
+    feedbackHTML+='<p><strong>Score: '+scores.w+'/20</strong></p>';
+    
+    document.getElementById('wFeedback').innerHTML=feedbackHTML;
+    document.getElementById('wFeedback').classList.remove('hidden');
+    document.getElementById('wBtn').classList.add('hidden');
+    document.getElementById('wNext').classList.remove('hidden');
+}
+
+function selectScenario(num){
+    selectedScenario=num;
+    const scenario=scenarios[num];
+    
+    document.querySelectorAll('.scenario-option').forEach((el,i)=>{
+        el.classList.toggle('selected',i===num-1);
+    });
+    
+    document.getElementById('scenarioSelection').style.display='none';
+    document.getElementById('rolePlayArea').style.display='block';
+    document.getElementById('scenarioTitle').textContent=scenario.title+' - You are: '+scenario.userRole;
+    
+    transcript=[];
+    conversationHistory=[];
+    currentExchange=0;
+    // Initialize goal state — every defined goal starts as null (not yet achieved)
+    goalState={};
+    if(scenario.goals && scenario.goals.length){
+        scenario.goals.forEach(function(g){goalState[g.key]=null;});
+    }
+    document.getElementById('chatContainer').innerHTML='';
+    updateExchangeCounter();
+    
+    setTimeout(()=>{
+        playOpener();
+    },500);
+}
+
+function updateExchangeCounter(){
+    const sc=scenarios[selectedScenario];
+    const max=(sc && sc.max_turns) ? sc.max_turns : 20;
+    document.getElementById('exchangeCounter').textContent='Exchange '+(currentExchange+1)+' of up to '+max;
+}
+
+function addMessage(sender,text){
+    const container=document.getElementById('chatContainer');
+    const scenario=scenarios[selectedScenario];
+    const label=sender==='ai'?scenario.aiRole:scenario.userRole;
+    const bubbleClass=sender==='ai'?'chat-ai':'chat-user';
+    
+    const row=document.createElement('div');
+    row.className='chat-row '+sender;
+    row.innerHTML='<div><div class="chat-label">'+label+'</div><div class="chat-bubble '+bubbleClass+'">'+text+'</div></div>';
+    container.appendChild(row);
+    container.scrollTop=container.scrollHeight;
+}
+
+function speakText(text,callback){
+    if('speechSynthesis' in window){
+        window.speechSynthesis.cancel();
+        const utterance=new SpeechSynthesisUtterance(text);
+        utterance.rate=0.9;
+        utterance.lang='en-US';
+        utterance.onend=function(){
+            if(callback)callback();
+        };
+        window.speechSynthesis.speak(utterance);
+    }else{
+        if(callback)setTimeout(callback,1500);
+    }
+}
+
+function playOpener(){
+    const scenario=scenarios[selectedScenario];
+    const opener=scenario.opener;
+    
+    document.getElementById('micBtn').disabled=true;
+    document.getElementById('statusText').textContent='Listen...';
+    
+    addMessage('ai',opener);
+    transcript.push(scenario.aiRole+': '+opener);
+    conversationHistory.push({role:'assistant',content:opener});
+    
+    speakText(opener,function(){
+        document.getElementById('micBtn').disabled=false;
+        document.getElementById('statusText').textContent='Your turn! Click the microphone to respond';
+    });
+}
+
+// ============================================================
+// GOAL DETECTION ENGINE
+// After each user response, scan the text and update goalState
+// for any goals that have been achieved.
+// ============================================================
+function detectGoals(userText){
+    const sc=scenarios[selectedScenario];
+    if(!sc || !sc.goals) return;
+    const lower=userText.toLowerCase();
+    sc.goals.forEach(function(g){
+        if(goalState[g.key]) return; // already achieved, skip
+        switch(g.kind){
+            case 'enum':
+                // Match any of the enum options as whole-word
+                for(const opt of g.options){
+                    const re=new RegExp('\\b'+opt.toLowerCase()+'\\b');
+                    if(re.test(lower)){ goalState[g.key]=opt; return; }
+                }
+                break;
+            case 'text':
+                // Match any keyword
+                for(const kw of (g.keywords||[])){
+                    if(lower.includes(kw.toLowerCase())){ goalState[g.key]=kw; return; }
+                }
+                break;
+            case 'number':
+                // Look for numbers OR keywords like "hundred", "thousand"
+                const numMatch=userText.match(/\$?\s*\d{1,7}(\.\d+)?/);
+                if(numMatch){ goalState[g.key]=numMatch[0].trim(); return; }
+                for(const kw of (g.keywords||[])){
+                    if(lower.includes(kw.toLowerCase())){ goalState[g.key]=kw; return; }
+                }
+                break;
+            case 'vocabulary':
+                // Count matches against valid_terms across the WHOLE conversation so far
+                const allUserText=conversationHistory
+                    .filter(m=>m.role==='user')
+                    .map(m=>m.content.toLowerCase())
+                    .join(' ')+' '+lower;
+                let matches=0;
+                for(const term of (g.valid_terms||[])){
+                    if(allUserText.includes(term.toLowerCase())) matches++;
+                }
+                if(matches>=(g.min_matches||1)){ goalState[g.key]='matched ('+matches+' terms)'; }
+                break;
+        }
+    });
+}
+
+function buildGoalStatusForClaude(){
+    const sc=scenarios[selectedScenario];
+    if(!sc || !sc.goals || !sc.goals.length) return '';
+    const achieved=[],remaining=[];
+    sc.goals.forEach(function(g){
+        if(goalState[g.key]){ achieved.push(g.prompt+' ('+goalState[g.key]+')'); }
+        else { remaining.push(g.prompt); }
+    });
+    let status='\n\n--- LESSON PROGRESS ---\n';
+    status+='Goals achieved: '+(achieved.length?achieved.join(', '):'none yet')+'\n';
+    status+='Goals remaining: '+(remaining.length?remaining.join(', '):'all complete')+'\n';
+    if(remaining.length){
+        status+='\nGuide the conversation naturally toward the remaining goals. Do NOT wrap up until all goals are achieved.';
+    }else{
+        status+='\nAll lesson goals are now complete. You may now ask if the student has any questions, then naturally wrap up the conversation.';
+    }
+    return status;
+}
+
+async function getClaudeResponse(){
+    const scenario=scenarios[selectedScenario];
+    document.getElementById('statusText').textContent='Thinking...';
+    
+    // Build the system prompt: scenario instructions + current goal status
+    const systemPrompt=scenario.instructions+buildGoalStatusForClaude();
+    
+    try{
+        const response=await fetch("https://api.anthropic.com/v1/messages",{
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({
+                model:"claude-sonnet-4-20250514",
+                max_tokens:150,
+                system:systemPrompt,
+                messages:conversationHistory
+            })
+        });
+        if(!response.ok)throw new Error('API error: '+response.status);
+        const data=await response.json();
+        const aiText=data.content && data.content[0] && data.content[0].text ? data.content[0].text.trim() : "I'm sorry, I didn't catch that. Could you say it again?";
+        return aiText;
+    }catch(err){
+        console.log('Claude API error:',err);
+        const fallbacks=[
+            "I see. Can you tell me more about that?",
+            "Got it. Is there anything else?",
+            "Okay, sounds good. What else would you like?",
+            "Of course. Please continue.",
+            "All right. Thank you for letting me know."
+        ];
+        return fallbacks[currentExchange % fallbacks.length];
+    }
+}
+
+function playAIMessage(){
+    // Used for AI replies after the opener — calls Claude
+    const scenario=scenarios[selectedScenario];
+    document.getElementById('micBtn').disabled=true;
+    
+    getClaudeResponse().then(function(aiText){
+        addMessage('ai',aiText);
+        transcript.push(scenario.aiRole+': '+aiText);
+        conversationHistory.push({role:'assistant',content:aiText});
+        
+        speakText(aiText,function(){
+            const maxTurns=scenario.max_turns||20;
+            const allGoalsMet=isAllGoalsAchieved();
+            // Detect natural conversation end: AI says goodbye/wrap-up phrases AND all goals are met
+            const wrappingUp=/(\bthank you\b|\bgoodbye\b|\bhave a (great|good|nice) day\b|\baccount (will be|is) (set up|ready)|\benjoy your (vacation|trip)|\bsee you (soon|then))/i.test(aiText);
+            
+            if(currentExchange>=maxTurns){
+                endConversation('Conversation reached the maximum length.');
+            }else if(allGoalsMet && wrappingUp){
+                endConversation('Great job! You completed all the lesson goals.');
+            }else{
+                document.getElementById('micBtn').disabled=false;
+                document.getElementById('statusText').textContent='Your turn! Click the microphone to respond';
+            }
+        });
+    });
+}
+
+function isAllGoalsAchieved(){
+    const sc=scenarios[selectedScenario];
+    if(!sc || !sc.goals || !sc.goals.length) return true;
+    return sc.goals.every(function(g){return goalState[g.key];});
+}
+
+function toggleMic(){
+    if(isRecording){
+        stopRecording();
+    }else{
+        startRecording();
+    }
+}
+
+function startRecording(){
+    const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+    if(!SR){
+        const response=prompt('Speech recognition not available. Type your response:');
+        if(response){
+            handleUserResponse(response);
+        }
+        return;
+    }
+    
+    recognition=new SR();
+    recognition.continuous=false;
+    recognition.interimResults=false;
+    recognition.lang='en-US';
+    
+    recognition.onstart=function(){
+        isRecording=true;
+        document.getElementById('micBtn').classList.add('recording');
+        document.getElementById('statusText').textContent='Listening... Click to stop';
+    };
+    
+    recognition.onresult=function(event){
+        const text=event.results[0][0].transcript;
+        handleUserResponse(text);
+    };
+    
+    recognition.onerror=function(event){
+        stopRecording();
+        if(event.error==='no-speech'){
+            document.getElementById('statusText').textContent='No speech detected. Try again.';
+        }
+    };
+    
+    recognition.onend=function(){
+        if(isRecording) stopRecording();
+    };
+    
+    try{recognition.start();}catch(e){}
+}
+
+function stopRecording(){
+    isRecording=false;
+    document.getElementById('micBtn').classList.remove('recording');
+    if(recognition){try{recognition.stop();}catch(e){}}
+}
+
+function handleUserResponse(userText){
+    stopRecording();
+    const scenario=scenarios[selectedScenario];
+    
+    addMessage('user',userText);
+    transcript.push(scenario.userRole+': '+userText);
+    conversationHistory.push({role:'user',content:userText});
+    
+    // Detect any goals achieved by this response (updates goalState in place)
+    detectGoals(userText);
+    
+    currentExchange++;
+    updateExchangeCounter();
+    
+    document.getElementById('micBtn').disabled=true;
+    document.getElementById('statusText').textContent='';
+    
+    setTimeout(()=>{playAIMessage();},800);
+}
+
+function endConversation(reason){
+    document.getElementById('micBtn').disabled=true;
+    document.getElementById('statusText').textContent=reason||'Conversation complete!';
+    
+    // Pull just the user's responses out of conversationHistory
+    const userResponses=conversationHistory.filter(m=>m.role==='user').map(m=>m.content);
+    
+    // Score based on actual quality of responses (length, vocab variety, B1 markers)
+    let score=0;
+    let feedbackLines=[];
+    
+    // 1. Completion (0-6 pts): each substantive exchange counts
+    const substantiveResponses=userResponses.filter(r=>r.trim().split(/\s+/).filter(Boolean).length>=2);
+    score+=Math.min(6,substantiveResponses.length);
+    
+    // 2. Response length (0-6 pts): full sentences > single words
+    const totalWords=userResponses.reduce((sum,r)=>sum+r.trim().split(/\s+/).filter(Boolean).length,0);
+    const avgWords=userResponses.length>0 ? totalWords/userResponses.length : 0;
+    if(avgWords>=8) score+=6;
+    else if(avgWords>=5) score+=4;
+    else if(avgWords>=3) score+=2;
+    
+    // 3. Vocabulary variety (0-4 pts): unique words across all responses
+    const allText=userResponses.join(' ').toLowerCase();
+    const uniqueWords=new Set(allText.split(/\s+/).filter(w=>w.length>2));
+    if(uniqueWords.size>=20) score+=4;
+    else if(uniqueWords.size>=12) score+=3;
+    else if(uniqueWords.size>=6) score+=2;
+    else if(uniqueWords.size>=3) score+=1;
+    
+    // 4. Use of B1 grammar / question forms / polite expressions (0-4 pts)
+    const b1Markers=['would','could','should','please','thank you','i would like','can you','do you have','how much','what is','i think','i need','i want','because'];
+    const b1Hits=b1Markers.filter(m=>allText.includes(m)).length;
+    score+=Math.min(4,b1Hits);
+    
+    scores.s=Math.min(20,score);
+    
+    const scenario=scenarios[selectedScenario];
+    const maxTurns=scenario.max_turns||20;
+    feedbackLines.push('<h4>Role Play Complete!</h4>');
+    feedbackLines.push('<p>Scenario: '+scenario.title+'</p>');
+    feedbackLines.push('<p>Exchanges completed: '+substantiveResponses.length+' of up to '+maxTurns+'</p>');
+    feedbackLines.push('<p>Average response length: '+avgWords.toFixed(1)+' words</p>');
+    feedbackLines.push('<p><strong>Score: '+scores.s+'/20</strong></p>');
+    if(scores.s<14){
+        feedbackLines.push('<p style="font-size:0.9em;color:#666;margin-top:8px">Tip: Try giving longer responses with full sentences, polite phrases ("could you", "I would like"), and more variety of words.</p>');
+    }
+    
+    document.getElementById('sFeedback').innerHTML=feedbackLines.join('');
+    document.getElementById('sFeedback').classList.remove('hidden');
+    document.getElementById('sBtn').style.display='block';
+}
+
+function finishSpeaking(){
+    goTo('s5');
+}
+
+function submitFinal(){
+    let correct=0;
+    document.querySelectorAll('#grammarQuestions .question').forEach((q,i)=>{
+        const sel=q.querySelector('.option.selected');
+        const ans=parseInt(q.dataset.c);
+        if(sel){
+            if(parseInt(sel.dataset.v)===ans){
+                correct++;
+                sel.classList.add('correct');
+            }else{
+                sel.classList.add('incorrect');
+                q.querySelector('[data-v="'+ans+'"]').classList.add('correct');
+            }
+        }
+    });
+    scores.g=correct;
+    
+    const total=scores.l+scores.v+scores.w+scores.s+scores.g;
+    const pct=Math.round(total/57*100);
+    
+    document.getElementById('finalPct').textContent=pct+'%';
+    document.getElementById('studentDisplay').textContent=studentName+' ['+studentClass+']';
+    document.getElementById('scL').textContent=scores.l+'/3';
+    document.getElementById('scV').textContent=scores.v+'/6';
+    document.getElementById('scW').textContent=scores.w+'/20';
+    document.getElementById('scS').textContent=scores.s+'/20';
+    document.getElementById('scG').textContent=scores.g+'/8';
+    
+    let cefrLevel='B1';
+    let cefrMsg='';
+    if(pct>=85){
+        cefrLevel='B1+ - B2';
+        cefrMsg='Excellent! You are ready to move to B2 Upper Intermediate level!';
+    }else if(pct>=70){
+        cefrLevel='B1';
+        cefrMsg='Great job! You have solid B1 Intermediate skills.';
+    }else if(pct>=50){
+        cefrLevel='B1-';
+        cefrMsg='Good progress! Keep practicing to strengthen your B1 skills.';
+    }else{
+        cefrLevel='A2+';
+        cefrMsg='You may need more practice at the B1 level before moving on.';
+    }
+    document.getElementById('cefrLevel').textContent=cefrLevel;
+    document.getElementById('cefrMessage').textContent=cefrMsg;
+    
+    goTo('results');
+}
+
+function submitToTeacher(){
+    const btn=document.getElementById('submitBtn');
+    const warnEl=document.getElementById('notSubmittedWarning');
+    const successEl=document.getElementById('submittedSuccess');
+    if(btn){btn.disabled=true;btn.textContent='Submitting...';}
+
+    const pct=Math.round((scores.l+scores.v+scores.w+scores.s+scores.g)/57*100);
+    const transcriptText=(typeof transcript!=='undefined' && transcript.length>0)?transcript.join('\n'):'[No role play completed]';
+
+    // Unified B1 homework form mapping (matches Classes 9/11/12/13/14):
+    //   entry.518151516  → B  Student Name
+    //   entry.710610284  → C  Class (3088/3090/3095/3098/3101)
+    //   entry.864654596  → D  Session ('15')
+    //   entry.258952242  → E  Reading
+    //   entry.859150584  → F  Vocab
+    //   entry.1121796741 → G  Writing score
+    //   entry.1435469716 → H  Speaking score
+    //   entry.1998281944 → I  Grammar score
+    //   entry.1207114914 → J  Percentage
+    //   entry.939912807  → K  Writing text
+    //   entry.2086302086 → L  Speaking transcript
+    const formData=new FormData();
+    formData.append('entry.518151516',studentName);
+    formData.append('entry.710610284',studentClass);
+    formData.append('entry.864654596',SESSION);
+    formData.append('entry.258952242',scores.l+'/3');
+    formData.append('entry.859150584',scores.v+'/6');
+    formData.append('entry.1121796741',scores.w+'/20');
+    formData.append('entry.1435469716',scores.s+'/20');
+    formData.append('entry.1998281944',scores.g+'/8');
+    formData.append('entry.1207114914',pct+'%');
+    formData.append('entry.939912807',writingText||'');
+    formData.append('entry.2086302086',transcriptText);
+
+    function showSuccess(){
+        if(btn){btn.textContent='Submitted ✓';btn.style.background='#22c55e';btn.disabled=true;btn.style.display='none';}
+        if(warnEl)warnEl.style.display='none';
+        if(successEl)successEl.style.display='block';
+    }
+    function showFailure(){
+        if(btn){btn.disabled=false;btn.textContent='Failed - Tap to Retry';btn.style.background='#ef4444';}
+        if(warnEl){warnEl.style.display='block';warnEl.textContent='⚠️ Submission failed. Check your internet and tap Retry.';}
+    }
+
+    // 6s timeout fallback for mobile (no-cors never errors on success)
+    let done=false;
+    const timeoutId=setTimeout(function(){if(!done){done=true;showSuccess();}},6000);
+
+    fetch('https://docs.google.com/forms/d/e/1FAIpQLSf9uEs5MqWLveyoaMBxeWx3pW1b90siwgaom766CpwqnOI7Dg/formResponse',
+          {method:'POST',mode:'no-cors',body:formData})
+        .then(function(){if(done)return;done=true;clearTimeout(timeoutId);showSuccess();})
+        .catch(function(){if(done)return;done=true;clearTimeout(timeoutId);showFailure();});
+}
+</script>
+</body>
+</html>
