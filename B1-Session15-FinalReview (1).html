@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B1 Class 15: Final Review</title>
+    <style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:#5B5091;min-height:100vh;padding:20px}
+.container{max-width:800px;margin:0 auto}
+.header{background:#fff;border-radius:20px;padding:30px;margin-bottom:20px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.2)}
+.header h1{color:#5B5091;font-size:1.4em}
+.header p{color:#888}
+.badge{background:#ef4444;color:#fff;padding:4px 12px;border-radius:20px;font-size:.8em}
+.level-badge{background:#5B5091;color:#fff;padding:6px 16px;border-radius:20px;font-size:.9em;display:inline-block;margin-bottom:10px}
+.card{background:#fff;border-radius:16px;padding:25px;margin-bottom:20px}
+.card h2{color:#5B5091;margin-bottom:15px}
+label{font-weight:600;color:#333;display:block;margin-bottom:8px}
+input[type="text"],select{width:100%;padding:14px;border:2px solid #e0e0e0;border-radius:12px;font-size:16px;margin-bottom:15px}
+input:focus,select:focus{outline:none;border-color:#5B5091}
+.btn{background:#5B5091;color:#fff;border:none;padding:14px 32px;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;width:100%;margin-top:10px;transition:all .2s}
+.btn:hover{background:#4a4080}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn-orange{background:#F5A623}
+.btn-secondary{background:#f5f5f5;color:#333}
+.section{display:none}
+.section.active{display:block}
+.reading-box{background:#f8f9fa;border-radius:12px;padding:20px;margin-bottom:20px;border-left:4px solid #5B5091;line-height:1.8}
+.question{background:#f8f9fa;border-radius:12px;padding:20px;margin:15px 0;border:1px solid #eee}
+.question h4{margin-bottom:15px;color:#333}
+.option{padding:14px;border:2px solid #e0e0e0;border-radius:10px;cursor:pointer;margin-bottom:10px;display:flex;align-items:center;gap:12px}
+.option:hover{border-color:#5B5091;background:#f3f0ff}
+.option.selected{border-color:#5B5091;background:#e8e4f5}
+.option.correct{border-color:#22c55e;background:#f0fdf4}
+.option.incorrect{border-color:#ef4444;background:#fef2f2}
+.circle{width:20px;height:20px;border:2px solid #ccc;border-radius:50%;flex-shrink:0}
+.option.selected .circle{border-color:#5B5091;background:#5B5091}
+textarea{width:100%;min-height:120px;padding:14px;border:2px solid #e0e0e0;border-radius:12px;font-size:16px;font-family:inherit;resize:vertical}
+textarea:focus{outline:none;border-color:#5B5091}
+.progress{height:8px;background:#e0e0e0;border-radius:4px;margin-bottom:20px}
+.progress-bar{height:100%;background:#F5A623;border-radius:4px;transition:width .3s}
+.progress-text{display:flex;justify-content:space-between;margin-bottom:8px;font-size:14px;color:#666}
+.score-card{background:linear-gradient(135deg,#5B5091,#7B6DB0);border-radius:20px;padding:35px;color:#fff;text-align:center}
+.score-big{font-size:4em;font-weight:700}
+.scores{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:20px}
+.scores>div{background:rgba(255,255,255,.15);border-radius:12px;padding:12px}
+.scores label{font-size:.75em;opacity:.9}
+.scores span{font-size:1.4em;font-weight:700;display:block}
+.cefr-box{background:linear-gradient(135deg,#1565C0,#1976D2);color:#fff;border-radius:12px;padding:20px;margin-top:20px;text-align:center}
+.cefr-box h3{margin-bottom:10px}
+.cefr-level{font-size:2em;font-weight:700}
+.not-submitted{background:#ffebee;border:2px solid #ef5350;border-radius:12px;padding:20px;text-align:center;animation:pulse-warning 2s infinite}
+.not-submitted h3{color:#c62828;margin-bottom:10px}
+@keyframes pulse-warning{0%,100%{box-shadow:0 0 0 0 rgba(239,83,80,.4)}50%{box-shadow:0 0 0 10px rgba(239,83,80,0)}}
+.submitted-success{background:#e8f5e9;border:2px solid #66bb6a;border-radius:12px;padding:20px;text-align:center;display:none}
+.submitted-success h3{color:#2e7d32}
+.prompt-box{background:#f3f0ff;border:1px solid #d4ccf0;border-radius:12px;padding:20px;margin-bottom:20px}
+.prompt-box h4{color:#5B5091;margin-bottom:10px}
+.word-count{text-align:right;color:#888;font-size:14px;margin-top:8px}
+.feedback{background:#f3f0ff;border:1px solid #5B5091;border-radius:12px;padding:20px;margin-top:15px}
+.hidden{display:none}
+.nav-buttons{display:flex;justify-content:space-between;margin-top:20px;gap:10px}
+@media(max-width:600px){.scores{grid-template-columns:repeat(3,1fr)}.nav-buttons{flex-direction:column}}
+
+.scenario-option{padding:15px;border:2px solid #e0e0e0;border-radius:12px;cursor:pointer;transition:all .2s;margin-bottom:10px}
+.scenario-option:hover{border-color:#5B5091;background:#f3f0ff}
+.scenario-option.selected{border-color:#5B5091;background:#e8e4f5}
+.chat-container{background:#f5f5f5;border-radius:16px;padding:20px;margin:20px 0;min-height:200px;max-height:400px;overflow-y:auto}
+.chat-bubble{max-width:85%;padding:12px 16px;border-radius:16px;margin-bottom:12px;line-height:1.5}
+.chat-ai{background:#5B5091;color:#fff;border-bottom-left-radius:4px}
+.chat-user{background:#fff;border:2px solid #5B5091;color:#333;border-bottom-right-radius:4px}
+.chat-row{display:flex;margin-bottom:12px}
+.chat-row.ai{justify-content:flex-start}
+.chat-row.user{justify-content:flex-end}
+.chat-label{font-size:11px;color:#666;margin-bottom:4px;font-weight:600}
+.mic-btn{width:80px;height:80px;border-radius:50%;background:#5B5091;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;margin:15px auto;transition:all .2s}
+.mic-btn:hover{background:#4a4080;transform:scale(1.05)}
+.mic-btn:disabled{background:#ccc;cursor:not-allowed;transform:none}
+.mic-btn.recording{background:#ef4444;animation:pulse-rec 1.5s infinite}
+.mic-btn svg{width:36px;height:36px;fill:#fff}
+@keyframes pulse-rec{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.4)}50%{box-shadow:0 0 0 15px rgba(239,68,68,0)}}
+.status-text{text-align:center;color:#666;margin:10px 0;font-size:14px}
+.exchange-counter{text-align:center;color:#5B5091;font-weight:600;margin-bottom:10px}
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="level-badge">CEFR Level B1 - Intermediate</div>
+        <h1>📘 Class 15: Final Review <span class="badge">FINAL</span></h1>
+        <p>Week 8 - Practical Skills 3 Complete Review</p>
+    </div>
+
+    <div class="section active" id="start">
+        <div class="card">
+            <h2>Welcome to Your Final Review!</h2>
+            <p style="color:#666;margin-bottom:20px">This review covers everything you learned in PS3:</p>
+            <ul style="color:#666;margin-bottom:20px;padding-left:20px">
+                <li>Holiday Traditions & Comparisons</li>
+                <li>Banking & Financial Situations</li>
+                <li>Shopping & Open-Air Markets</li>
+                <li>Household Chores & Cleaning</li>
+                <li>Transportation & Commuting</li>
+                <li>School Communication</li>
+                <li>Travel Planning & Phrasal Verbs</li>
+            </ul>
+            <label>Your Full Name</label>
+            <input type="text" id="studentName" placeholder="Enter your name...">
+            <label>Your Class</label>
+            <input type="hidden" id="teacherName" value="">
+            <select id="studentClass" onchange="setTeacher(this)">
+                <option value="">Select your class...</option>
+                <option value="3088" data-teacher="Laura Ebel">3088 -- Mon/Wed 9:00 AM (Laura)</option>
+                <option value="3090" data-teacher="Laura Ebel">3090 -- Mon/Wed 6:30 PM (Laura)</option>
+                <option value="3095" data-teacher="Laura Ebel">3095 -- Tue/Thu 11:00 AM (Laura)</option>
+                <option value="3098" data-teacher="Jonelle Williams">3098 -- Tue/Thu 6:30 PM (Jonelle)</option>
+                <option value="3101" data-teacher="Jonelle Williams">3101 -- Tue/Thu 8:30 PM (Jonelle)</option>
+            </select>
+            <button class="btn" onclick="startQuiz()">Start Final Review</button>
+        </div>
+    </div>
+
+    <div class="section" id="s1">
+        <div class="card">
+            <div class="progress-text"><span>Section 1 of 5</span><span>20%</span></div>
+            <div class="progress"><div class="progress-bar" style="width:20%"></div></div>
+            <h2>Reading Comprehension</h2>
+            <div class="reading-box">
+                <p><strong>Planning a Trip</strong></p>
+                <p>Carlos and his family are planning a trip to New York City next month. They have been saving money for this vacation for over a year. "This will be the most exciting trip we have ever taken!" said Carlos.</p>
+                <p>They need to book a hotel, but the hotels in Manhattan are more expensive than they expected. Carlos found a cheaper hotel in Brooklyn that has better reviews than some Manhattan hotels.</p>
+                <p>"We should take the subway," his wife suggested. "It is faster than taking a taxi, and much cheaper too." Carlos agreed, but he was worried about getting lost.</p>
+                <p>They plan to visit the Statue of Liberty, Central Park, and Times Square. Carlos wants to try authentic New York pizza because his friend told him it is the best pizza in the world. They will be staying for five days, and they are going to take lots of pictures.</p>
+            </div>
+            <div id="readingQuestions"></div>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="goBack0()">Back</button>
+                <button class="btn" onclick="checkS1()">Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="s2">
+        <div class="card">
+            <div class="progress-text"><span>Section 2 of 5</span><span>40%</span></div>
+            <div class="progress"><div class="progress-bar" style="width:40%"></div></div>
+            <h2>Vocabulary Matching</h2>
+            <div class="prompt-box"><h4>Match each word with its correct definition</h4><p style="color:#666">Tap a word on the left, then tap its matching definition on the right.</p></div>
+            <div id="vocabQuestions"></div>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="goTo('s1')">Back</button>
+                <button class="btn" onclick="checkS2()">Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="s3">
+        <div class="card">
+            <div class="progress-text"><span>Section 3 of 5</span><span>60%</span></div>
+            <div class="progress"><div class="progress-bar" style="width:60%"></div></div>
+            <h2>Writing</h2>
+            <div class="prompt-box">
+                <h4>Writing Task</h4>
+                <p>Write about a <strong>trip you are planning</strong> OR <strong>a trip you took</strong> (6-8 sentences).</p>
+                <p style="margin-top:10px;color:#666">Include:</p>
+                <ul style="padding-left:20px;color:#666">
+                    <li>Where you are going / went</li>
+                    <li>How you will travel / traveled (transportation)</li>
+                    <li>Use comparatives (cheaper, better, more exciting)</li>
+                    <li>Use future tense (will, going to) OR past tense</li>
+                </ul>
+            </div>
+            <textarea id="writing" placeholder="Write here..." oninput="updateWC()"></textarea>
+            <div class="word-count">Words: <span id="wc">0</span></div>
+            <div class="feedback hidden" id="wFeedback"></div>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="goTo('s2')">Back</button>
+                <button class="btn" id="wBtn" onclick="checkWriting()">Get Feedback</button>
+                <button class="btn hidden" id="wNext" onclick="goTo('s4')">Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="s4">
+        <div class="card">
+            <div class="progress-text"><span>Section 4 of 5</span><span>80%</span></div>
+            <div class="progress"><div class="progress-bar" style="width:80%"></div></div>
+            <h2>Speaking - Role Play</h2>
+            
+            <div id="scenarioSelection">
+                <div class="prompt-box">
+                    <h4>Choose a role-play scenario:</h4>
+                    <p style="color:#666">You will have a conversation with 6 exchanges.</p>
+                </div>
+                <div class="scenario-option" onclick="selectScenario(1)">
+                    <strong>🏦 Scenario 1: At the Bank</strong>
+                    <p style="color:#666;font-size:14px;margin-top:5px">You want to open a bank account or ask about services.</p>
+                </div>
+                <div class="scenario-option" onclick="selectScenario(2)">
+                    <strong>🛒 Scenario 2: Bargaining and Shopping Deals</strong>
+                    <p style="color:#666;font-size:14px;margin-top:5px">You are shopping. Compare prices, ask about discounts, and try to bargain for a better deal.</p>
+                </div>
+                <div class="scenario-option" onclick="selectScenario(3)">
+                    <strong>✈️ Scenario 3: Planning a Trip</strong>
+                    <p style="color:#666;font-size:14px;margin-top:5px">Discuss travel plans with a friend or travel agent.</p>
+                </div>
+            </div>
+
+            <div id="rolePlayArea" style="display:none">
+                <div style="background:#e8e4f5;padding:10px 15px;border-radius:8px;margin-bottom:15px;text-align:center">
+                    <strong id="scenarioTitle" style="color:#5B5091"></strong>
+                </div>
+                <div class="exchange-counter" id="exchangeCounter">Exchange 1 of 6</div>
+                <div class="chat-container" id="chatContainer"></div>
+                <div class="status-text" id="statusText">Click the microphone to respond</div>
+                <button class="mic-btn" id="micBtn" onclick="toggleMic()" disabled>
+                    <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5-3c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
+                </button>
+            </div>
+
+            <div class="feedback hidden" id="sFeedback"></div>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="goTo('s3')">Back</button>
+                <button class="btn" id="sBtn" onclick="finishSpeaking()" style="display:none">Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="s5">
+        <div class="card">
+            <div class="progress-text"><span>Section 5 of 5</span><span>100%</span></div>
+            <div class="progress"><div class="progress-bar" style="width:100%"></div></div>
+            <h2>Grammar Quiz</h2>
+            <div id="grammarQuestions"></div>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="goTo('s4')">Back</button>
+                <button class="btn btn-orange" onclick="submitFinal()">Submit Final Review</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="results">
+        <div class="score-card">
+            <p style="opacity:.8">Congratulations! Practical Skills 3 Complete!</p>
+            <div class="score-big" id="finalPct">0%</div>
+            <p id="studentDisplay"></p>
+            <div class="scores">
+                <div><label>Reading</label><span id="scL">0/3</span></div>
+                <div><label>Vocab</label><span id="scV">0/6</span></div>
+                <div><label>Writing</label><span id="scW">0/20</span></div>
+                <div><label>Speaking</label><span id="scS">0/20</span></div>
+                <div><label>Grammar</label><span id="scG">0/8</span></div>
+            </div>
+            <div class="cefr-box">
+                <h3>Your CEFR Progress</h3>
+                <div class="cefr-level" id="cefrLevel">B1</div>
+                <p id="cefrMessage">You have completed the B1 Intermediate level!</p>
+            </div>
+            <div style="margin-top:25px">
+                <div class="not-submitted" id="notSubmittedWarning">
+                    <h3>NOT YET SUBMITTED</h3>
+                    <p>Click the button below to submit your results to your teacher</p>
+                </div>
+                <div class="submitted-success" id="submittedSuccess">
+                    <h3>Submitted Successfully!</h3>
+                    <p>Your teacher will receive your results</p>
+                </div>
+                <button class="btn btn-orange" id="submitBtn" onclick="submitToTeacher()" style="margin-top:15px;font-size:20px;padding:20px">Submit to Teacher</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const SESSION='15';
+function setTeacher(sel){var opt=sel.options[sel.selectedIndex];var th=document.getElementById('teacherName');if(th)th.value=opt?(opt.getAttribute('data-teacher')||''):'';}
+let studentName='',studentClass='',scores={l:0,v:0,w:0,s:0,g:0},writingText='';
+let readingAnswers=[],grammarAnswers=[];
+
+let selectedScenario=0;
+let currentExchange=0;
+let transcript=[];
+let conversationHistory=[]; // History of role play: [{role:'user',content:'...'},{role:'assistant',content:'...'}]
+let goalState={}; // Tracks which scenario goals have been achieved (key -> truthy value or null)
+let isRecording=false;
+let recognition=null;
+
+// ============================================================
+// SCRIPTED SCENARIOS — Branching dialogue engine (no API needed)
+// Each scenario has: opener + flow (14 steps).
+// Each step has detect rules and 4 reply variants:
+//   full / short / empty / offTopic
+// Plus optional partial-match variants like "placeOnly", "itemOnly", etc.
+// ============================================================
+const scenarios={
+    1:{
+        title:'At the Bank',
+        aiRole:'Bank Teller',
+        userRole:'Customer',
+        max_turns:14,
+        opener:"Hi! Welcome to Jeeko Bank. I'm Sam. How can I help you today?",
+        flow:[
+            // STEP 1 — Reason for calling
+            {target:'reason',
+             detect:{open:[/\bopen\b/i,/\bnew\s*account\b/i,/\baccount\b/i,/\bstart\b/i],minWords:2},
+             replies:{
+                full:"Of course, I'd be happy to help you open an account. Are you interested in a checking account or a savings account?",
+                short:"I can help you with that. Are you thinking of a checking account or a savings account?",
+                empty:"No problem! Would you like to open a new account, ask about fees, or something else? Just tell me how I can help.",
+                offTopic:"That's interesting! But let me make sure — are you calling to open a bank account today?"
+             }},
+            // STEP 2 — Account type
+            {target:'account_type',
+             detect:{type:[/\bchecking\b/i,/\bsaving(s)?\b/i,/\bjoint\b/i,/\bbusiness\b/i],minWords:1},
+             replies:{
+                full:"Great choice! That's a popular option. Now, do you have a form of ID with you? For example, a driver's license or a passport?",
+                short:"Got it. Now, do you have an ID? A driver's license or passport works.",
+                empty:"No worries — you can choose. A checking account is for everyday spending. A savings account is to save money. Which one would you like?",
+                offTopic:"Let's stay on topic — would you prefer a checking account or a savings account?"
+             }},
+            // STEP 3 — ID type
+            {target:'id',
+             detect:{id:[/\blicen[cs]e\b/i,/\bpassport\b/i,/\bdriver/i,/\b(state\s*)?id\b/i,/\bidentification\b/i],minWords:1},
+             replies:{
+                full:"Perfect, that works. Now, how much would you like to deposit to start? Most customers begin with at least 25 dollars.",
+                short:"Great. Now, how much money would you like to deposit at the start?",
+                empty:"You can use a driver's license, a passport, or a state ID. Which one do you have?",
+                offTopic:"Let's focus on the account — what kind of ID do you have? A license or passport?"
+             }},
+            // STEP 4 — Deposit amount
+            {target:'deposit',
+             detect:{amount:[/\$?\s*\d+/,/\b(hundred|thousand|fifty|twenty)\b/i,/\bdollar/i],minWords:1},
+             replies:{
+                full:"That's a fine starting amount. Once your account is open, you'll get a debit card and can use any ATM. Have you used a debit card or online banking before?",
+                short:"Sounds good. By the way — have you used a debit card or online banking before?",
+                empty:"Just give me a number — for example, 25 dollars, 100 dollars, or whatever you'd like to start with.",
+                offTopic:"Let's keep going — how much would you like to deposit to open the account?"
+             }},
+            // STEP 5 — Banking vocabulary
+            {target:'banking_vocab',
+             detect:{vocab:[/\bdebit\b/i,/\bcredit\b/i,/\batm\b/i,/\bonline\s*banking\b/i,/\bmobile\s*banking\b/i,/\bwithdraw/i,/\bdeposit\b/i,/\btransfer\b/i,/\bbalance\b/i,/\bstatement\b/i,/\binterest\b/i],minWords:2},
+             replies:{
+                full:"Wonderful — sounds like you know your way around a bank. Quick note: there's a small monthly fee, but if you keep a minimum balance, it's waived. Any questions about that?",
+                short:"Nice. Just so you know — there's a small monthly fee unless you keep a minimum balance. Any questions about fees?",
+                empty:"For example, you can withdraw money at an ATM, transfer money online, or check your balance on your phone. Have you used any of these?",
+                offTopic:"Stay with me — have you used a debit card, ATM, or online banking before?"
+             }},
+            // STEP 6 — Fees follow-up
+            {target:'fees_response',
+             detect:{response:[/\bno\b/i,/\byes\b/i,/\bok\b/i,/\bfee/i,/\bbalance\b/i,/\bhow\s*much\b/i,/\bunderstand\b/i],minWords:1},
+             replies:{
+                full:"Great. Most customers prefer no fees, so they keep the minimum balance. Now — what about overdrafts? Would you like overdraft protection or no?",
+                short:"Got it. One more thing — do you want overdraft protection? It can save you from extra fees.",
+                empty:"No worries! The fee is 5 dollars a month, but if you keep 500 dollars in the account, it's free. Does that make sense?",
+                offTopic:"Let me circle back — any concerns about the monthly fee?"
+             }},
+            // STEP 7 — Overdraft choice
+            {target:'overdraft',
+             detect:{choice:[/\byes\b/i,/\bno\b/i,/\bplease\b/i,/\bprotection\b/i,/\boverdraft\b/i,/\bsure\b/i,/\bwant\b/i],minWords:1},
+             replies:{
+                full:"Noted. Now, do you have any questions for me about the bank, our services, or your new account?",
+                short:"Got it. Now — do you have any questions about the bank or your account?",
+                empty:"It's up to you. Overdraft protection means we cover small purchases if your balance is too low — but there's a small fee. Yes or no?",
+                offTopic:"Let's stay focused — would you like overdraft protection: yes or no?"
+             }},
+            // STEP 8 — Student asks a question
+            {target:'student_question',
+             detect:{question:[/\?/, /\bwhat\b/i,/\bhow\b/i,/\bwhen\b/i,/\bwhere\b/i,/\bcan\s*i\b/i,/\bdo\s*you\b/i,/\bare\s*there\b/i,/\bis\s*there\b/i],minWords:2},
+             replies:{
+                full:"Excellent question! Yes, you can use any ATM in our network for free, and we have over 5,000 locations. Anything else you'd like to know?",
+                short:"Good question! Our network has over 5,000 free ATMs and 24/7 mobile banking. Anything else?",
+                empty:"You can ask me anything about fees, ATMs, debit cards, online banking, or interest rates. What would you like to know?",
+                offTopic:"Anything you'd like to know about banking with us — fees, services, anything?"
+             }},
+            // STEP 9 — Follow-up question or "no more"
+            {target:'more_questions',
+             detect:{response:[/\bno\b/i,/\bnothing\b/i,/\bthat'?s\s*all\b/i,/\b(yes|yeah)\b/i,/\?/,/\bhow\b/i,/\bcan\b/i,/\bwhat\b/i],minWords:1},
+             replies:{
+                full:"Perfect. Let me confirm everything: I have your account type, your ID, and your deposit amount. Does that all sound correct?",
+                short:"Alright. Let me confirm — your account type, ID, and deposit are all set. Sound good?",
+                empty:"That's fine! We can finalize the account now. Sound good?",
+                offTopic:"Let's wrap up — shall I confirm your account details now?"
+             }},
+            // STEP 10 — Confirmation
+            {target:'confirm',
+             detect:{confirm:[/\byes\b/i,/\bcorrect\b/i,/\bsounds\s*good\b/i,/\bok\b/i,/\bsure\b/i,/\bgreat\b/i,/\bthat'?s\s*right\b/i],minWords:1},
+             replies:{
+                full:"Great. Your debit card will arrive in 5 to 7 business days, and your account will be active by tomorrow morning.",
+                short:"Perfect. Your debit card arrives in about a week, and your account is ready tomorrow.",
+                empty:"No problem — I'll send you the details by email so you can review them. Account will be ready tomorrow.",
+                offTopic:"Just to confirm — everything I have is correct, right?"
+             }},
+            // STEP 11 — Pre-closing offer
+            {target:'extras',
+             detect:{response:[/\bthank/i,/\bgreat\b/i,/\bok\b/i,/\bperfect\b/i,/\bappreciate\b/i,/\bcool\b/i,/\bawesome\b/i,/\bsure\b/i],minWords:1},
+             replies:{
+                full:"You're welcome! One more thing — would you like to set up direct deposit for your paycheck? It's free and very easy.",
+                short:"You're welcome. Quick offer — would you like free direct deposit set up?",
+                empty:"My pleasure! Quick offer — would you like to set up direct deposit? It's free.",
+                offTopic:"Thanks for that! Quick last offer — would you like free direct deposit?"
+             }},
+            // STEP 12 — Direct deposit choice
+            {target:'direct_deposit',
+             detect:{choice:[/\byes\b/i,/\bno\b/i,/\bplease\b/i,/\blater\b/i,/\bnot\s*now\b/i,/\bsure\b/i],minWords:1},
+             replies:{
+                full:"Got it. We'll send the forms by email so you can fill them out at home.",
+                short:"Noted. We'll email you the paperwork.",
+                empty:"That's fine — you can always set it up later through online banking.",
+                offTopic:"Either way works — yes or no on direct deposit?"
+             }},
+            // STEP 13 — Closing question
+            {target:'closing_q',
+             detect:{any:[/\w+/],minWords:1},
+             replies:{
+                full:"Great. Is there anything else I can help you with today?",
+                short:"One last thing — anything else I can help you with?",
+                empty:"Is there anything else you need from me today?",
+                offTopic:"Last question — anything else I can help you with?"
+             }},
+            // STEP 14 — Goodbye
+            {target:'goodbye',
+             detect:{any:[/\w+/],minWords:1},
+             replies:{
+                full:"Wonderful. Thank you for choosing Jeeko Bank! You did a great job today practicing banking vocabulary. Have a wonderful day!",
+                short:"Thanks for choosing Jeeko Bank! Great job using banking vocabulary. Have a great day!",
+                empty:"All set! Thanks for calling Jeeko Bank — have a great day!",
+                offTopic:"Thanks for that! Welcome to Jeeko Bank. Have a wonderful day!"
+             }}
+        ],
+        goals:[
+            {key:"account_type",valid_terms:["checking","savings","saving","joint","business"]},
+            {key:"id",valid_terms:["license","passport","driver","drivers","id","identification"]},
+            {key:"deposit",valid_terms:["dollar","dollars","hundred","thousand","fifty","twenty","deposit"]},
+            {key:"banking_vocabulary",valid_terms:["debit","credit","atm","online banking","mobile banking","withdraw","transfer","balance","statement","interest","overdraft","fee","fees","direct deposit"]}
+        ]
+    },
+    2:{
+        title:'Bargaining and Shopping Deals',
+        aiRole:'Shop Vendor',
+        userRole:'Customer',
+        max_turns:14,
+        opener:"Hi! Welcome to my shop! I have great items today. Are you looking for anything specific?",
+        flow:[
+            // STEP 1 — Item interest
+            {target:'item',
+             detect:{looking:[/\b(looking\s*for|need|want|interested|would\s*like|i'?d\s*like|show\s*me)\b/i],
+                     item:[/\b(jacket|shoes|shirt|dress|pants|bag|hat|watch|phone|sunglasses|jewelry|necklace|ring|backpack|wallet|gift|souvenir|scarf|jeans|sweater)\b/i],
+                     minWords:2},
+             replies:{
+                full:"Wonderful choice! I have three options for you. The blue one is 50 dollars, the leather one is 80 dollars, and the brand-name one is 120 dollars. Which catches your eye?",
+                itemOnly:"Great pick! I have three of those. One is 50 dollars, one is 80, and the premium one is 120. Which interests you?",
+                short:"Lovely! Tell me what type — I have many options at different prices.",
+                empty:"Just have a look! I sell jackets, shoes, bags, jewelry, and souvenirs. What catches your eye?",
+                offTopic:"Welcome! Tell me — what would you like to buy today?"
+             }},
+            // STEP 2 — Compare options (comparative)
+            {target:'comparative',
+             detect:{comp:[/\b(cheaper|more\s*expensive|better|worse|nicer|bigger|smaller|larger|heavier|lighter|softer|prettier|stronger|more\s*\w+|than)\b/i],minWords:3},
+             replies:{
+                full:"You're right! The blue one is cheaper than the brand one, but the leather is more durable. Which one is your favorite — the very best?",
+                short:"Good comparison! Now — which one is your favorite, the very best of the three?",
+                empty:"For example: The blue one is cheaper than the brand one. Or: The leather is better than the blue. Compare two of them!",
+                offTopic:"Stay with the items! Compare two of them — for example, which is cheaper?"
+             }},
+            // STEP 3 — Pick the best (superlative)
+            {target:'superlative',
+             detect:{sup:[/\bthe\s*(cheapest|most\s*expensive|best|worst|biggest|smallest|nicest|prettiest|highest|lowest|most\s*\w+)\b/i],minWords:3},
+             replies:{
+                full:"Excellent! Yes, that one is fantastic. So the price is 80 dollars. What do you think? Is the price okay for you?",
+                short:"Great pick! The price is 80 dollars. Sound okay to you?",
+                empty:"Try this: The blue one is the cheapest. Or: The leather is the best. Which is the best for you?",
+                offTopic:"Tell me — which one is the BEST for you? Use 'the best', 'the nicest', etc."
+             }},
+            // STEP 4 — React to price (negotiation start)
+            {target:'price_react',
+             detect:{react:[/\bexpensive\b/i,/\bcheap\b/i,/\btoo\s*much\b/i,/\ba\s*lot\b/i,/\bhigh\b/i,/\blower\b/i,/\bgood\s*price\b/i,/\bfair\b/i,/\bok\b/i,/\bfine\b/i],minWords:1},
+             replies:{
+                full:"I hear you. Honestly, this is good quality. But for you, I can do something. What's your best offer? How much will you pay?",
+                short:"I understand. So — what's your best offer? How much will you pay?",
+                empty:"Take your time! If 80 is too much, just tell me — what would YOU like to pay?",
+                offTopic:"Let's keep negotiating! Is 80 dollars too high for you?"
+             }},
+            // STEP 5 — Counter-offer (negotiation)
+            {target:'negotiate',
+             detect:{neg:[/\$?\s*\d+/,/\bdiscount\b/i,/\boffer\b/i,/\bdeal\b/i,/\bcheaper\b/i,/\blower\b/i,/\bcan\s*you\s*do\b/i,/\bhow\s*about\b/i,/\bwould\s*you\s*take\b/i,/\bnegotiabl/i,/\bbargain\b/i],minWords:2},
+             replies:{
+                full:"Hmm, that's low for me, but you have a deal! Let's meet in the middle. How does that sound?",
+                short:"Hmm, you drive a hard bargain! Okay — let's meet in the middle. Deal?",
+                empty:"Just tell me a number! For example: 'How about 60 dollars?' or 'Can I get a discount?'",
+                offTopic:"Make me an offer! How much will you pay?"
+             }},
+            // STEP 6 — Accept the deal
+            {target:'accept',
+             detect:{accept:[/\bdeal\b/i,/\byes\b/i,/\bok\b/i,/\btake\s*it\b/i,/\bi'?ll\s*take\b/i,/\bagreed\b/i,/\bsounds\s*good\b/i,/\bperfect\b/i],minWords:1},
+             replies:{
+                full:"Wonderful! It's a deal. Now, how would you like to pay — cash or credit card?",
+                short:"It's a deal! Cash or credit card?",
+                empty:"No problem. Cash or card — how do you want to pay?",
+                offTopic:"Let's close the deal — cash or card?"
+             }},
+            // STEP 7 — Payment method (shopping vocab)
+            {target:'payment',
+             detect:{pay:[/\bcash\b/i,/\bcredit\b/i,/\bcard\b/i,/\bdebit\b/i],minWords:1},
+             replies:{
+                full:"Perfect. Do you need a receipt? It's good to have for refunds or exchanges.",
+                short:"Got it. Want a receipt? Useful for exchanges.",
+                empty:"Either is fine. Just tell me — cash or card?",
+                offTopic:"How about payment — cash or card?"
+             }},
+            // STEP 8 — Receipt / extras
+            {target:'receipt',
+             detect:{response:[/\byes\b/i,/\bno\b/i,/\breceipt\b/i,/\bplease\b/i,/\bsure\b/i],minWords:1},
+             replies:{
+                full:"Done! By the way, we have a loyalty program — buy 5 items, get the 6th 50 percent off. Are you interested?",
+                short:"Done! Quick offer — we have a loyalty program. Interested?",
+                empty:"No problem! By the way — we have a loyalty program. Buy 5, get one half off. Interested?",
+                offTopic:"Quick offer — interested in our loyalty program?"
+             }},
+            // STEP 9 — Loyalty program
+            {target:'loyalty',
+             detect:{response:[/\byes\b/i,/\bno\b/i,/\bsure\b/i,/\bmaybe\b/i,/\bok\b/i,/\bnot\s*now\b/i,/\binterest/i],minWords:1},
+             replies:{
+                full:"Great. I'll add you to the list. Are you visiting from somewhere, or are you a local?",
+                short:"Cool. So — visiting from somewhere or are you a local?",
+                empty:"That's fine. Just tell me — are you visiting or local?",
+                offTopic:"Tell me — are you visiting or local?"
+             }},
+            // STEP 10 — Visiting / local
+            {target:'visiting',
+             detect:{any:[/\b(local|visiting|tourist|here|from|live)\b/i,/\b(yes|no)\b/i],minWords:1},
+             replies:{
+                full:"That's wonderful. Will you tell your friends about my shop?",
+                short:"Lovely! Will you recommend my shop to your friends?",
+                empty:"That's fine! By the way — would you recommend my shop to friends?",
+                offTopic:"That's fine! Would you recommend my shop to friends?"
+             }},
+            // STEP 11 — Recommendation question
+            {target:'recommend',
+             detect:{any:[/\b(yes|no|sure|maybe|of\s*course|definitely|probably)\b/i],minWords:1},
+             replies:{
+                full:"You're so kind. Now — do you have any questions for me before you go?",
+                short:"Thank you! Any questions for me?",
+                empty:"That's nice of you. Any questions before you go?",
+                offTopic:"Any questions for me before we wrap up?"
+             }},
+            // STEP 12 — Student question
+            {target:'student_question',
+             detect:{q:[/\?/,/\bdo\s*you\b/i,/\bhow\s*(much|long|many)\b/i,/\bwhat\s*(time|is|are)\b/i,/\bwhen\b/i,/\bwhere\b/i,/\bopen\b/i,/\bsell\b/i,/\bhave\b/i,/\baccept\b/i,/\breturn\b/i,/\brefund\b/i,/\bexchange\b/i],minWords:2},
+             replies:{
+                full:"Great question! Yes, we accept returns within 30 days with the receipt. We're also open every day from 9 AM to 8 PM.",
+                short:"Good question! Returns are fine within 30 days, and we're open daily 9 to 8.",
+                empty:"You can ask me anything! For example: 'Do you accept returns?' or 'What time do you open?'",
+                offTopic:"Anything you want to ask? About the shop, returns, hours — anything!"
+             }},
+            // STEP 13 — Closing question
+            {target:'closing_q',
+             detect:{any:[/\w+/],minWords:1},
+             replies:{
+                full:"Wonderful. Anything else I can help you with today before you go?",
+                short:"Anything else before you go?",
+                empty:"Anything else you need today?",
+                offTopic:"One last thing — anything else I can help you with?"
+             }},
+            // STEP 14 — Goodbye
+            {target:'goodbye',
+             detect:{any:[/\w+/],minWords:1},
+             replies:{
+                full:"Wonderful! Enjoy your purchase! You did a fantastic job bargaining today. Come back soon!",
+                short:"Enjoy your purchase! Great job bargaining today!",
+                empty:"Thanks for shopping! Enjoy your purchase!",
+                offTopic:"Thanks for shopping! Enjoy your purchase!"
+             }}
+        ],
+        goals:[
+            {key:"item_identification",valid_terms:["looking for","i want","i need","i'd like","i would like","jacket","shoes","shirt","dress","phone","bag","hat","watch","sunglasses","backpack","scarf","jeans","sweater","souvenir","gift"]},
+            {key:"comparative_adjective",valid_terms:["cheaper","more expensive","better","worse","larger","smaller","more comfortable","more stylish","heavier","lighter","bigger","nicer","than"]},
+            {key:"superlative_adjective",valid_terms:["the cheapest","the most expensive","the best","the worst","the most comfortable","the most stylish","the highest","the lowest","the biggest","the smallest","the nicest","the most beautiful","the lightest"]},
+            {key:"price_negotiation",valid_terms:["discount","deal","offer","how about","can i get","better price","too expensive","lower","cheaper","negotiable","negotiate","bargain"]},
+            {key:"shopping_vocabulary",valid_terms:["price","discount","deal","refund","exchange","bargain","receipt","quality","brand","sale","cash","credit card","loyalty"]}
+        ]
+    },
+    3:{
+        title:'Planning a Trip',
+        aiRole:'Travel Agent',
+        userRole:'Customer',
+        max_turns:14,
+        opener:"Hello! Welcome to Sunshine Travel Agency. I'm Alex! Are you planning a vacation? Where will you go?",
+        flow:[
+            // STEP 1 — Destination
+            {target:'destination',
+             detect:{will:[/\bi\s*('ll|will)\b/i,/\bi\s*(am|m)\s*going\s*to\b/i],
+                     place:[/\b(paris|london|tokyo|japan|new\s*york|usa|america|brazil|spain|italy|france|germany|portugal|mexico|canada|china|korea|thailand|greece|argentina|chile|peru|colombia|miami|orlando|disney|hawaii|australia|egypt|morocco|dubai|india|england|europe|asia|africa|beach|mountain|city|countryside)\b/i],
+                     minWords:2},
+             replies:{
+                full:"Wow, that sounds amazing! Now tell me, what are you going to do there? Use 'I am going to...'",
+                placeOnly:"Great choice! What are you going to do there? Use 'I am going to...'",
+                short:"Cool! Tell me more — what are you going to do? Use 'I am going to...'",
+                empty:"Just say a place. For example: I will go to Paris. Where would you like to go?",
+                offTopic:"Ha, interesting! But back to the trip — where will you go on your dream vacation?"
+             }},
+            // STEP 2 — Plans (BE GOING TO)
+            {target:'plans',
+             detect:{goingTo:[/\b(am|m|are|is)\s*going\s*to\b/i],
+                     activity:[/\b(visit|see|eat|try|stay|swim|walk|tour|explore|relax|shop|buy|drink|dance|hike|ski|surf|fly|drive|sleep|sunbathe|photograph)\b/i],
+                     minWords:3},
+             replies:{
+                full:"That sounds wonderful! Quick question — what's the difference between 'will' and 'be going to'?",
+                activityOnly:"Nice! Quick question — when do you use 'will' and when 'be going to'?",
+                short:"Sounds fun! When do you use 'will' and when 'be going to'?",
+                empty:"Try this: I am going to plus a verb. For example, I am going to eat sushi. What are you going to do?",
+                offTopic:"Ha, good point! But back to your trip — what are you going to do there?"
+             }},
+            // STEP 3 — Will vs Be Going To
+            {target:'grammar_contrast',
+             detect:{knows:[/\bplan/i,/\bdecid/i,/\bquick/i,/\bspontan/i,/\bpredict/i,/\bnow\b/i,/\balready\b/i,/\bmoment\b/i,/\bfuture\b/i],minWords:3},
+             replies:{
+                full:"Exactly! 'Be going to' is for plans you decided. 'Will' is for quick decisions. Now — do you have your passport ready?",
+                short:"Right idea! 'Be going to' for plans, 'will' for quick decisions. Do you have your passport?",
+                empty:"No problem! Quick rule: 'I am going to' for plans, 'I will' for quick decisions. Do you have your passport?",
+                offTopic:"Interesting! But back to grammar — when do you use 'will' vs 'be going to'?"
+             }},
+            // STEP 4 — Travel vocabulary
+            {target:'travel_vocab',
+             detect:{vocab:[/\b(passport|ticket|luggage|suitcase|baggage|hotel|accommodation|itinerary|flight|boarding\s*pass)\b/i],minWords:2},
+             replies:{
+                full:"Perfect! Sounds like you're well prepared. Now tell me one thing you will NOT do on this trip. Use 'I will not...'",
+                short:"Good! Tell me one thing you will NOT do. Use 'I will not...'",
+                empty:"For example: I am going to pack my luggage. Or I have my passport. Tell me about yours!",
+                offTopic:"Stay with the trip — do you have your passport, ticket, and luggage ready?"
+             }},
+            // STEP 5 — Negative form
+            {target:'negative',
+             detect:{neg:[/\bwill\s*not\b/i,/\bwon'?t\b/i,/\bnot\s*going\s*to\b/i],minWords:3},
+             replies:{
+                full:"Smart choice! Now — ask ME a question about MY travel plans. Use 'will' or 'are you going to'.",
+                short:"Good! Now your turn — ask ME a question about my plans.",
+                empty:"For example: I will not stay in a cheap hotel. What about you? What will you NOT do?",
+                offTopic:"Stay with me — tell me ONE thing you will NOT do on your trip."
+             }},
+            // STEP 6 — Question form
+            {target:'question_form',
+             detect:{q:[/\?/,/\bwill\s*you\b/i,/\bare\s*you\s*going\s*to\b/i,/\bdo\s*you\b/i,/\bwhere\s*will\b/i,/\bwhen\s*will\b/i,/\bhow\b/i],minWords:3},
+             replies:{
+                full:"Great question! Yes, I'm going to travel in December — I'll go to Italy. Now let me teach you a phrasal verb. I always 'set off' early. Can you use 'set off' or 'check in' in a sentence?",
+                short:"Good question! Yes I'll travel in December. Now — try using 'set off' or 'check in' in a sentence!",
+                empty:"Try asking me: Will you travel this year? Or: Are you going to take a vacation?",
+                offTopic:"Ha, fun! But ask me a question about MY trip plans."
+             }},
+            // STEP 7 — First phrasal verb
+            {target:'phrasal_1',
+             detect:{phrasal:[/\bset\s*off\b/i,/\bcheck\s*in\b/i,/\btake\s*off\b/i,/\blook\s*around\b/i],minWords:3},
+             replies:{
+                full:"Excellent phrasal verb! Try another one. For example, 'take off' (the plane leaves) or 'look around' (explore the city). Use one in a sentence!",
+                short:"Good! Try a different phrasal verb — 'take off' or 'look around'. Use it in a sentence!",
+                empty:"For example: We will set off at 6 AM. Or: I will check in at the hotel. Try one!",
+                offTopic:"Stay with me — try 'set off' or 'check in' in a sentence."
+             }},
+            // STEP 8 — Second phrasal verb
+            {target:'phrasal_2',
+             detect:{phrasal:[/\bset\s*off\b/i,/\bcheck\s*in\b/i,/\btake\s*off\b/i,/\blook\s*around\b/i,/\bget\s*on\b/i,/\bget\s*off\b/i,/\bpick\s*up\b/i,/\bdrop\s*off\b/i,/\bstop\s*over\b/i,/\bhead\s*back\b/i,/\bpack\s*up\b/i,/\bget\s*away\b/i],minWords:3},
+             replies:{
+                full:"Fantastic! You're using phrasal verbs like a pro. Now — let's role play. I'm your travel agent. Where do you want to book and when?",
+                short:"Great! Let's role play — I'm your agent. Where and when do you want to book?",
+                empty:"For example: The plane will take off at 8 PM. Or: We will look around the old town. Try one!",
+                offTopic:"Just one more phrasal — 'take off' or 'look around' in a sentence!"
+             }},
+            // STEP 9 — Dates
+            {target:'dates',
+             detect:{time:[/\b(january|february|march|april|may|june|july|august|september|october|november|december)\b/i,/\b(spring|summer|autumn|fall|winter)\b/i,/\b(next|this)\s*(month|week|year|summer)\b/i,/\b\d+\s*(day|week|month)/i],minWords:3},
+             replies:{
+                full:"Perfect, I have the dates. Now — where will you stay? A hotel, a resort, or an apartment?",
+                short:"Got it! Where will you stay — hotel, resort, or apartment?",
+                empty:"For example: I will travel in July. Or next month. When do you want to go?",
+                offTopic:"Back to your booking — when will you go and for how long?"
+             }},
+            // STEP 10 — Accommodation
+            {target:'accommodation',
+             detect:{accom:[/\b(hotel|resort|apartment|hostel|airbnb|villa|house)\b/i],minWords:2},
+             replies:{
+                full:"Great choice! And what about activities? What are you going to do there? Tell me at least two things.",
+                short:"Good! What are you going to do there?",
+                empty:"You can choose: a hotel is comfortable, a resort has a pool, an apartment is private. Which one?",
+                offTopic:"Stay with the booking — where will you stay? Hotel, resort, apartment?"
+             }},
+            // STEP 11 — Activities
+            {target:'activities',
+             detect:{activity:[/\b(visit|see|eat|try|swim|walk|tour|explore|relax|shop|buy|hike|ski|surf|sunbathe|photograph|museum|beach|park|restaurant|food)\b/i],minWords:3},
+             replies:{
+                full:"That sounds wonderful! Do you have any questions for me — about the flight, the hotel, anything?",
+                short:"Nice plans! Any questions for me about the trip?",
+                empty:"For example: I'm going to visit museums. Or I will try the local food. What about you?",
+                offTopic:"Back to the trip — what activities are you going to do?"
+             }},
+            // STEP 12 — Student question
+            {target:'student_question',
+             detect:{q:[/\?/,/\bwill\s*you\b/i,/\bdo\s*you\b/i,/\bare\s*you\b/i,/\bcan\s*you\b/i,/\bhow\s*(much|long|many)\b/i,/\bwhat\s*(time|is|are)\b/i,/\bwhen\b/i,/\bwhere\b/i],minWords:3},
+             replies:{
+                full:"Great question! Yes, I'll send you the full itinerary by email tomorrow. The hotel has great reviews. Are you excited?",
+                short:"Good question! I'll handle all the details. Are you excited?",
+                empty:"Just ask me anything! For example: How much is the hotel? What time will the plane take off?",
+                offTopic:"You can ask me anything! How long is the trip? Will you book the flight?"
+             }},
+            // STEP 13 — Closing question
+            {target:'closing_q',
+             detect:{any:[/\w+/],minWords:1},
+             replies:{
+                full:"Wonderful! We're almost done. One last question — what will be the first thing you do when you arrive?",
+                short:"Lovely! One last question — what will you do first when you arrive?",
+                empty:"Almost done! Just tell me — what will you do first when you arrive?",
+                offTopic:"Almost done — what will be the first thing you do when you arrive?"
+             }},
+            // STEP 14 — Goodbye
+            {target:'goodbye',
+             detect:{any:[/\w+/],minWords:1},
+             replies:{
+                full:"Ha, that's the perfect way to start a trip! You're going to have an amazing time. Fantastic job today practicing 'will', 'be going to', vocabulary, and phrasal verbs. Have a wonderful vacation!",
+                short:"You're going to have an amazing trip! Great job practicing today. Have a wonderful vacation!",
+                empty:"You did great today with 'will', 'be going to', and phrasal verbs. Have a wonderful trip!",
+                offTopic:"Great job today! Have a wonderful trip!"
+             }}
+        ],
+        goals:[
+            {key:"will_form",valid_terms:["i will","we will","i'll","we'll","will go","will visit","will stay","will fly","will travel","will take","will book","will see","will eat","will not","won't","will you"]},
+            {key:"be_going_to_form",valid_terms:["am going to","i'm going to","is going to","are going to","we are going to","we're going to","not going to","aren't going to","going to visit","going to stay","going to fly"]},
+            {key:"travel_vocabulary",valid_terms:["passport","flight","hotel","luggage","suitcase","ticket","airport","itinerary","accommodation","boarding pass","departure","arrival","budget","resort","destination","trip","vacation","journey","beach","mountain","city","tour","plane","train"]},
+            {key:"phrasal_verb",valid_terms:["set off","check in","check out","take off","get on","get off","pick up","drop off","look around","stop over","head back","pack up","hurry up","get away"]}
+        ]
+    }
+};
+
+const readingQBank=[
+    {q:"How long have Carlos and his family been saving for this trip?",opts:["Six months","Over a year","Two years"],correct:1},
+    {q:"Why did Carlos choose a hotel in Brooklyn?",opts:["It is closer to Manhattan","It is cheaper with better reviews","His friend lives there"],correct:1},
+    {q:"According to his wife, why should they take the subway?",opts:["It is more comfortable","It is faster and cheaper","It is safer"],correct:1},
+    {q:"What does Carlos want to try in New York?",opts:["Hot dogs","Authentic pizza","Hamburgers"],correct:1},
+    {q:"How many days will they stay in New York?",opts:["Three days","Five days","One week"],correct:1}
+];
+
+const grammarQBank=[
+    {q:"This hotel is _____ than the one downtown.",opts:["cheaper","more cheap","cheapest"],correct:0},
+    {q:"She speaks English _____ than her brother.",opts:["more fluently","fluently","most fluently"],correct:0},
+    {q:"This is the _____ restaurant in the city.",opts:["most expensive","more expensive","expensiver"],correct:0},
+    {q:"I _____ visit my grandmother next weekend.",opts:["will","going to","am go"],correct:0},
+    {q:"They _____ to Paris next summer.",opts:["are going to travel","will traveling","going travel"],correct:0},
+    {q:"You _____ bring your passport to the bank.",opts:["should","should to","must to"],correct:0},
+    {q:"The train is _____ than the bus, but slower.",opts:["more comfortable","comfortabler","most comfortable"],correct:0},
+    {q:"We _____ our hotel before the trip.",opts:["have to book","have book","must to book"],correct:0},
+    {q:"This market has _____ prices in town.",opts:["the lowest","the lower","more low"],correct:0},
+    {q:"I _____ the dishes after dinner.",opts:["will do","will doing","going do"],correct:0}
+];
+
+const vocabMatchBank=[
+    {term:"Deposit",def:"Money you put in the bank regularly"},
+    {term:"Open-air market",def:"A place to buy fresh fruits and vegetables outdoors"},
+    {term:"Housework",def:"The work you do to keep your house clean"},
+    {term:"Commuting",def:"Traveling to work every day"},
+    {term:"Check in",def:"Arrive and register at a hotel"},
+    {term:"Put down",def:"The opposite of pick up"},
+    {term:"Debit card",def:"A card to pay directly from your bank account"},
+    {term:"Look forward to",def:"To feel excited about something in the future"},
+    {term:"Receipt",def:"A document showing how much money you spent"},
+    {term:"Set off",def:"To start traveling on a trip"}
+];
+let vocabPairs=[],vocabSelectedTerm=null,vocabMatched=0,vocabTotal=6;
+
+function shuffle(arr){
+    for(let i=arr.length-1;i>0;i--){
+        const j=Math.floor(Math.random()*(i+1));
+        [arr[i],arr[j]]=[arr[j],arr[i]];
+    }
+    return arr;
+}
+
+function initQuestions(){
+    const rQs=shuffle([...readingQBank]).slice(0,3);
+    let rHTML='';
+    rQs.forEach((q,i)=>{
+        const opts=q.opts.map((o,idx)=>({text:o,isCorrect:idx===q.correct}));
+        shuffle(opts);
+        readingAnswers[i]=opts.findIndex(o=>o.isCorrect);
+        rHTML+='<div class="question"><h4>'+(i+1)+'. '+q.q+'</h4>';
+        opts.forEach((o,j)=>{
+            rHTML+='<div class="option" onclick="sel(this)" data-v="'+j+'"><div class="circle"></div>'+o.text+'</div>';
+        });
+        rHTML+='</div>';
+    });
+    document.getElementById('readingQuestions').innerHTML=rHTML;
+
+    vocabPairs=shuffle([...vocabMatchBank]).slice(0,6);
+    vocabMatched=0;vocabTotal=6;vocabSelectedTerm=null;
+    const shuffledDefs=shuffle(vocabPairs.map((p,i)=>({def:p.def,idx:i})));
+    let vHTML='<div style="display:grid;grid-template-columns:1fr 1fr;gap:15px">';
+    vHTML+='<div><h4 style="color:#5B5091;margin-bottom:10px;text-align:center">Words</h4>';
+    vocabPairs.forEach((p,i)=>{
+        vHTML+='<div class="option match-term" data-idx="'+i+'" onclick="selectTerm(this)" style="justify-content:center;font-weight:600;text-align:center">'+p.term+'</div>';
+    });
+    vHTML+='</div><div><h4 style="color:#5B5091;margin-bottom:10px;text-align:center">Definitions</h4>';
+    shuffledDefs.forEach(d=>{
+        vHTML+='<div class="option match-def" data-idx="'+d.idx+'" onclick="selectDef(this)" style="font-size:14px;text-align:center;justify-content:center">'+d.def+'</div>';
+    });
+    vHTML+='</div></div>';
+    vHTML+='<div id="matchFeedback" style="text-align:center;margin-top:15px;font-weight:600"></div>';
+    document.getElementById('vocabQuestions').innerHTML=vHTML;
+
+    const gQs=shuffle([...grammarQBank]).slice(0,8);
+    let gHTML='';
+    gQs.forEach((q,i)=>{
+        const opts=q.opts.map((o,idx)=>({text:o,isCorrect:idx===q.correct}));
+        shuffle(opts);
+        grammarAnswers[i]=opts.findIndex(o=>o.isCorrect);
+        gHTML+='<div class="question" data-c="'+grammarAnswers[i]+'"><h4>'+(i+1)+'. '+q.q+'</h4>';
+        opts.forEach((o,j)=>{
+            gHTML+='<div class="option" onclick="sel(this)" data-v="'+j+'"><div class="circle"></div>'+o.text+'</div>';
+        });
+        gHTML+='</div>';
+    });
+    document.getElementById('grammarQuestions').innerHTML=gHTML;
+}
+
+function startQuiz(){
+    studentName=document.getElementById('studentName').value.trim();
+    studentClass=document.getElementById('studentClass').value;
+    if(!studentName){alert('Please enter your name');return;}
+    if(!studentClass){alert('Please select your class');return;}
+    setTeacher(document.getElementById('studentClass'));
+    initQuestions();
+    goTo('s1');
+}
+
+function goTo(id){
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0,0);
+}
+
+function goBack0(){
+    document.getElementById('s1').classList.remove('active');
+    document.getElementById('start').classList.add('active');
+}
+
+function sel(el){
+    el.parentElement.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
+    el.classList.add('selected');
+}
+
+function checkS1(){
+    let correct=0;
+    document.querySelectorAll('#readingQuestions .question').forEach((q,i)=>{
+        const selected=q.querySelector('.option.selected');
+        if(selected&&parseInt(selected.dataset.v)===readingAnswers[i])correct++;
+    });
+    scores.l=correct;
+    goTo('s2');
+}
+
+function selectTerm(el){
+    if(el.classList.contains('matched'))return;
+    document.querySelectorAll('.match-term').forEach(t=>t.classList.remove('selected'));
+    el.classList.add('selected');
+    vocabSelectedTerm=parseInt(el.dataset.idx);
+}
+
+function selectDef(el){
+    if(el.classList.contains('matched')||vocabSelectedTerm===null)return;
+    const defIdx=parseInt(el.dataset.idx);
+    const termEl=document.querySelector('.match-term[data-idx="'+vocabSelectedTerm+'"');
+    if(defIdx===vocabSelectedTerm){
+        termEl.classList.remove('selected');termEl.classList.add('matched');
+        termEl.style.background='#f0fdf4';termEl.style.borderColor='#22c55e';termEl.style.opacity='0.7';termEl.style.cursor='default';
+        el.classList.add('matched');el.style.background='#f0fdf4';el.style.borderColor='#22c55e';el.style.opacity='0.7';el.style.cursor='default';
+        vocabMatched++;
+        document.getElementById('matchFeedback').innerHTML='<span style="color:#22c55e">Correct! '+vocabMatched+'/'+vocabTotal+' matched</span>';
+    }else{
+        termEl.classList.remove('selected');
+        termEl.style.background='#fef2f2';termEl.style.borderColor='#ef4444';
+        el.style.background='#fef2f2';el.style.borderColor='#ef4444';
+        setTimeout(()=>{
+            if(!termEl.classList.contains('matched')){termEl.style.background='';termEl.style.borderColor='#e0e0e0';}
+            if(!el.classList.contains('matched')){el.style.background='';el.style.borderColor='#e0e0e0';}
+        },800);
+        document.getElementById('matchFeedback').innerHTML='<span style="color:#ef4444">Try again!</span>';
+    }
+    vocabSelectedTerm=null;
+}
+
+function checkS2(){
+    scores.v=vocabMatched;
+    goTo('s3');
+}
+
+function updateWC(){
+    document.getElementById('wc').textContent=document.getElementById('writing').value.trim().split(/\s+/).filter(w=>w).length;
+}
+
+function checkWriting(){
+    writingText=document.getElementById('writing').value;
+    const t=writingText.toLowerCase();
+    const wc=t.trim().split(/\s+/).filter(w=>w).length;
+    
+    if(wc<15){
+        alert('Please write at least 15 words');
+        return;
+    }
+    
+    let errorCount=0;
+    if(/more cheaper|more better|more faster|most cheapest/i.test(t)) errorCount++;
+    
+    const hasComparative=/more \w+|.+er than|better|worse|cheaper|faster|easier/i.test(t);
+    const hasFuture=/will |going to |'ll /i.test(t);
+    const hasTravelVocab=/trip|travel|visit|hotel|flight|train|bus|airport|vacation|beach|city/i.test(t);
+    
+    let score=0;
+    score+=(hasComparative?6:0);
+    score+=(hasFuture?5:0);
+    score+=(hasTravelVocab?4:0);
+    score+=(wc>=60?5:wc>=40?3:wc>=20?2:1);
+    score-=(errorCount*3);
+    score=Math.max(0,Math.min(20,Math.round(score)));
+    
+    scores.w=score;
+    
+    let feedbackHTML='<h4>Feedback</h4>';
+    feedbackHTML+='<p>Word count: '+wc+'</p>';
+    if(errorCount>0){
+        feedbackHTML+='<p style="color:#ef4444"><strong>Grammar errors found: '+errorCount+'</strong></p>';
+    }
+    feedbackHTML+='<p><strong>Score: '+scores.w+'/20</strong></p>';
+    
+    document.getElementById('wFeedback').innerHTML=feedbackHTML;
+    document.getElementById('wFeedback').classList.remove('hidden');
+    document.getElementById('wBtn').classList.add('hidden');
+    document.getElementById('wNext').classList.remove('hidden');
+}
+
+function selectScenario(num){
+    selectedScenario=num;
+    const scenario=scenarios[num];
+    
+    document.querySelectorAll('.scenario-option').forEach((el,i)=>{
+        el.classList.toggle('selected',i===num-1);
+    });
+    
+    document.getElementById('scenarioSelection').style.display='none';
+    document.getElementById('rolePlayArea').style.display='block';
+    document.getElementById('scenarioTitle').textContent=scenario.title+' - You are: '+scenario.userRole;
+    
+    transcript=[];
+    conversationHistory=[];
+    currentExchange=0;
+    // Initialize goal state — every defined goal starts as null (not yet achieved)
+    goalState={};
+    if(scenario.goals && scenario.goals.length){
+        scenario.goals.forEach(function(g){goalState[g.key]=null;});
+    }
+    document.getElementById('chatContainer').innerHTML='';
+    updateExchangeCounter();
+    
+    setTimeout(()=>{
+        playOpener();
+    },500);
+}
+
+function updateExchangeCounter(){
+    const sc=scenarios[selectedScenario];
+    const max=(sc && sc.flow) ? sc.flow.length : ((sc && sc.max_turns) ? sc.max_turns : 14);
+    document.getElementById('exchangeCounter').textContent='Exchange '+(currentExchange+1)+' of '+max;
+}
+
+function addMessage(sender,text){
+    const container=document.getElementById('chatContainer');
+    const scenario=scenarios[selectedScenario];
+    const label=sender==='ai'?scenario.aiRole:scenario.userRole;
+    const bubbleClass=sender==='ai'?'chat-ai':'chat-user';
+    
+    const row=document.createElement('div');
+    row.className='chat-row '+sender;
+    row.innerHTML='<div><div class="chat-label">'+label+'</div><div class="chat-bubble '+bubbleClass+'">'+text+'</div></div>';
+    container.appendChild(row);
+    container.scrollTop=container.scrollHeight;
+}
+
+function speakText(text,callback){
+    if('speechSynthesis' in window){
+        window.speechSynthesis.cancel();
+        const utterance=new SpeechSynthesisUtterance(text);
+        utterance.rate=0.9;
+        utterance.lang='en-US';
+        utterance.onend=function(){
+            if(callback)callback();
+        };
+        window.speechSynthesis.speak(utterance);
+    }else{
+        if(callback)setTimeout(callback,1500);
+    }
+}
+
+function playOpener(){
+    const scenario=scenarios[selectedScenario];
+    const opener=scenario.opener;
+    
+    document.getElementById('micBtn').disabled=true;
+    document.getElementById('statusText').textContent='Listen...';
+    
+    addMessage('ai',opener);
+    transcript.push(scenario.aiRole+': '+opener);
+    conversationHistory.push({role:'assistant',content:opener});
+    
+    speakText(opener,function(){
+        document.getElementById('micBtn').disabled=false;
+        document.getElementById('statusText').textContent='Your turn! Click the microphone to respond';
+    });
+}
+
+// ============================================================
+// GOAL DETECTION ENGINE (used for end-of-conversation scoring only)
+// ============================================================
+function detectGoals(userText){
+    const sc=scenarios[selectedScenario];
+    if(!sc || !sc.goals) return;
+    const lower=userText.toLowerCase();
+    sc.goals.forEach(function(g){
+        if(goalState[g.key]) return;
+        // All goals are vocabulary-style — count terms across the whole conversation
+        const allUserText=conversationHistory
+            .filter(m=>m.role==='user')
+            .map(m=>m.content.toLowerCase())
+            .join(' ')+' '+lower;
+        let matches=0;
+        for(const term of (g.valid_terms||[])){
+            if(allUserText.includes(term.toLowerCase())) matches++;
+        }
+        if(matches>=1){ goalState[g.key]='matched ('+matches+' terms)'; }
+    });
+}
+
+// ============================================================
+// SCRIPTED DIALOGUE ENGINE
+// Picks the next AI reply from scenario.flow[currentExchange-1]
+// based on keyword detection in the student's message.
+// Variants: full / short / empty / offTopic + optional partials.
+// ============================================================
+function pickAIReply(userText){
+    const scenario=scenarios[selectedScenario];
+    const stepIndex=currentExchange-1;
+    const step=scenario.flow ? scenario.flow[stepIndex] : null;
+    if(!step) return null; // out of script
+
+    const text=(userText||'').trim();
+    const lower=text.toLowerCase();
+    const wordCount=lower.split(/\s+/).filter(w=>w.length>0).length;
+    const replies=step.replies;
+    const detect=step.detect||{};
+
+    if(wordCount===0 || lower==='undefined' || lower==='null'){
+        return replies.empty || replies.short || replies.full;
+    }
+
+    let matchedGroups=0;
+    let totalGroups=0;
+    let groupResults={};
+    for(const groupKey in detect){
+        if(groupKey==='minWords') continue;
+        totalGroups++;
+        const patterns=detect[groupKey];
+        const hit=patterns.some(p=>p instanceof RegExp ? p.test(text) : lower.includes(String(p).toLowerCase()));
+        groupResults[groupKey]=hit;
+        if(hit) matchedGroups++;
+    }
+
+    const minWords=detect.minWords||1;
+    const looksOffTopic=(matchedGroups===0 && totalGroups>0 && wordCount>=2);
+
+    if(matchedGroups>=totalGroups && totalGroups>0 && wordCount>=minWords){
+        return replies.full;
+    }
+    if(matchedGroups>0){
+        for(const k in groupResults){
+            if(groupResults[k] && replies[k+'Only']) return replies[k+'Only'];
+        }
+        return replies.short || replies.full;
+    }
+    if(looksOffTopic && replies.offTopic){
+        return replies.offTopic;
+    }
+    if(wordCount<minWords && replies.empty){
+        return replies.empty;
+    }
+    return replies.short || replies.full || replies.empty;
+}
+
+function playAIMessage(){
+    const scenario=scenarios[selectedScenario];
+    document.getElementById('micBtn').disabled=true;
+    document.getElementById('statusText').textContent='';
+
+    const lastUser=conversationHistory.filter(m=>m.role==='user').slice(-1)[0];
+    const userText=lastUser ? lastUser.content : '';
+    const aiText=pickAIReply(userText);
+
+    if(!aiText){
+        endConversation('Great job! You completed the role play.');
+        return;
+    }
+
+    addMessage('ai',aiText);
+    transcript.push(scenario.aiRole+': '+aiText);
+    conversationHistory.push({role:'assistant',content:aiText});
+
+    speakText(aiText,function(){
+        const maxTurns=scenario.flow ? scenario.flow.length : (scenario.max_turns||14);
+        if(currentExchange>=maxTurns){
+            endConversation('Great practice! See you next class.');
+        }else{
+            document.getElementById('micBtn').disabled=false;
+            document.getElementById('statusText').textContent='Your turn! Click the microphone to respond';
+        }
+    });
+}
+
+function isAllGoalsAchieved(){
+    const sc=scenarios[selectedScenario];
+    if(!sc || !sc.goals || !sc.goals.length) return true;
+    return sc.goals.every(function(g){return goalState[g.key];});
+}
+
+function toggleMic(){
+    if(isRecording){
+        stopRecording();
+    }else{
+        startRecording();
+    }
+}
+
+function startRecording(){
+    const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+    if(!SR){
+        const response=prompt('Speech recognition not available. Type your response:');
+        if(response){
+            handleUserResponse(response);
+        }
+        return;
+    }
+    
+    recognition=new SR();
+    recognition.continuous=false;
+    recognition.interimResults=false;
+    recognition.lang='en-US';
+    
+    recognition.onstart=function(){
+        isRecording=true;
+        document.getElementById('micBtn').classList.add('recording');
+        document.getElementById('statusText').textContent='Listening... Click to stop';
+    };
+    
+    recognition.onresult=function(event){
+        const text=event.results[0][0].transcript;
+        handleUserResponse(text);
+    };
+    
+    recognition.onerror=function(event){
+        stopRecording();
+        if(event.error==='no-speech'){
+            document.getElementById('statusText').textContent='No speech detected. Try again.';
+        }
+    };
+    
+    recognition.onend=function(){
+        if(isRecording) stopRecording();
+    };
+    
+    try{recognition.start();}catch(e){}
+}
+
+function stopRecording(){
+    isRecording=false;
+    document.getElementById('micBtn').classList.remove('recording');
+    if(recognition){try{recognition.stop();}catch(e){}}
+}
+
+function handleUserResponse(userText){
+    stopRecording();
+    const scenario=scenarios[selectedScenario];
+    
+    addMessage('user',userText);
+    transcript.push(scenario.userRole+': '+userText);
+    conversationHistory.push({role:'user',content:userText});
+    
+    // Detect any goals achieved by this response (updates goalState in place)
+    detectGoals(userText);
+    
+    currentExchange++;
+    updateExchangeCounter();
+    
+    document.getElementById('micBtn').disabled=true;
+    document.getElementById('statusText').textContent='';
+    
+    setTimeout(()=>{playAIMessage();},800);
+}
+
+function endConversation(reason){
+    document.getElementById('micBtn').disabled=true;
+    document.getElementById('statusText').textContent=reason||'Conversation complete!';
+    
+    // Pull just the user's responses out of conversationHistory
+    const userResponses=conversationHistory.filter(m=>m.role==='user').map(m=>m.content);
+    
+    // Score based on actual quality of responses (length, vocab variety, B1 markers)
+    let score=0;
+    let feedbackLines=[];
+    
+    // 1. Completion (0-6 pts): each substantive exchange counts
+    const substantiveResponses=userResponses.filter(r=>r.trim().split(/\s+/).filter(Boolean).length>=2);
+    score+=Math.min(6,substantiveResponses.length);
+    
+    // 2. Response length (0-6 pts): full sentences > single words
+    const totalWords=userResponses.reduce((sum,r)=>sum+r.trim().split(/\s+/).filter(Boolean).length,0);
+    const avgWords=userResponses.length>0 ? totalWords/userResponses.length : 0;
+    if(avgWords>=8) score+=6;
+    else if(avgWords>=5) score+=4;
+    else if(avgWords>=3) score+=2;
+    
+    // 3. Vocabulary variety (0-4 pts): unique words across all responses
+    const allText=userResponses.join(' ').toLowerCase();
+    const uniqueWords=new Set(allText.split(/\s+/).filter(w=>w.length>2));
+    if(uniqueWords.size>=20) score+=4;
+    else if(uniqueWords.size>=12) score+=3;
+    else if(uniqueWords.size>=6) score+=2;
+    else if(uniqueWords.size>=3) score+=1;
+    
+    // 4. Use of B1 grammar / question forms / polite expressions (0-4 pts)
+    const b1Markers=['would','could','should','please','thank you','i would like','can you','do you have','how much','what is','i think','i need','i want','because'];
+    const b1Hits=b1Markers.filter(m=>allText.includes(m)).length;
+    score+=Math.min(4,b1Hits);
+    
+    scores.s=Math.min(20,score);
+    
+    const scenario=scenarios[selectedScenario];
+    const maxTurns=scenario.max_turns||20;
+    feedbackLines.push('<h4>Role Play Complete!</h4>');
+    feedbackLines.push('<p>Scenario: '+scenario.title+'</p>');
+    feedbackLines.push('<p>Exchanges completed: '+substantiveResponses.length+' of up to '+maxTurns+'</p>');
+    feedbackLines.push('<p>Average response length: '+avgWords.toFixed(1)+' words</p>');
+    feedbackLines.push('<p><strong>Score: '+scores.s+'/20</strong></p>');
+    if(scores.s<14){
+        feedbackLines.push('<p style="font-size:0.9em;color:#666;margin-top:8px">Tip: Try giving longer responses with full sentences, polite phrases ("could you", "I would like"), and more variety of words.</p>');
+    }
+    
+    document.getElementById('sFeedback').innerHTML=feedbackLines.join('');
+    document.getElementById('sFeedback').classList.remove('hidden');
+    document.getElementById('sBtn').style.display='block';
+}
+
+function finishSpeaking(){
+    goTo('s5');
+}
+
+function submitFinal(){
+    let correct=0;
+    document.querySelectorAll('#grammarQuestions .question').forEach((q,i)=>{
+        const sel=q.querySelector('.option.selected');
+        const ans=parseInt(q.dataset.c);
+        if(sel){
+            if(parseInt(sel.dataset.v)===ans){
+                correct++;
+                sel.classList.add('correct');
+            }else{
+                sel.classList.add('incorrect');
+                q.querySelector('[data-v="'+ans+'"]').classList.add('correct');
+            }
+        }
+    });
+    scores.g=correct;
+    
+    const total=scores.l+scores.v+scores.w+scores.s+scores.g;
+    const pct=Math.round(total/57*100);
+    
+    document.getElementById('finalPct').textContent=pct+'%';
+    document.getElementById('studentDisplay').textContent=studentName+' ['+studentClass+']';
+    document.getElementById('scL').textContent=scores.l+'/3';
+    document.getElementById('scV').textContent=scores.v+'/6';
+    document.getElementById('scW').textContent=scores.w+'/20';
+    document.getElementById('scS').textContent=scores.s+'/20';
+    document.getElementById('scG').textContent=scores.g+'/8';
+    
+    let cefrLevel='B1';
+    let cefrMsg='';
+    if(pct>=85){
+        cefrLevel='B1+ - B2';
+        cefrMsg='Excellent! You are ready to move to B2 Upper Intermediate level!';
+    }else if(pct>=70){
+        cefrLevel='B1';
+        cefrMsg='Great job! You have solid B1 Intermediate skills.';
+    }else if(pct>=50){
+        cefrLevel='B1-';
+        cefrMsg='Good progress! Keep practicing to strengthen your B1 skills.';
+    }else{
+        cefrLevel='A2+';
+        cefrMsg='You may need more practice at the B1 level before moving on.';
+    }
+    document.getElementById('cefrLevel').textContent=cefrLevel;
+    document.getElementById('cefrMessage').textContent=cefrMsg;
+    
+    goTo('results');
+}
+
+function submitToTeacher(){
+    const btn=document.getElementById('submitBtn');
+    const warnEl=document.getElementById('notSubmittedWarning');
+    const successEl=document.getElementById('submittedSuccess');
+    if(btn){btn.disabled=true;btn.textContent='Submitting...';}
+
+    const pct=Math.round((scores.l+scores.v+scores.w+scores.s+scores.g)/57*100);
+    const transcriptText=(typeof transcript!=='undefined' && transcript.length>0)?transcript.join('\n'):'[No role play completed]';
+
+    // Unified B1 homework form mapping (matches Classes 9/11/12/13/14):
+    //   entry.518151516  → B  Student Name
+    //   entry.710610284  → C  Class (3088/3090/3095/3098/3101)
+    //   entry.864654596  → D  Session ('15')
+    //   entry.258952242  → E  Reading
+    //   entry.859150584  → F  Vocab
+    //   entry.1121796741 → G  Writing score
+    //   entry.1435469716 → H  Speaking score
+    //   entry.1998281944 → I  Grammar score
+    //   entry.1207114914 → J  Percentage
+    //   entry.939912807  → K  Writing text
+    //   entry.2086302086 → L  Speaking transcript
+    const formData=new FormData();
+    formData.append('entry.518151516',studentName);
+    formData.append('entry.710610284',studentClass);
+    formData.append('entry.864654596',SESSION);
+    formData.append('entry.258952242',scores.l+'/3');
+    formData.append('entry.859150584',scores.v+'/6');
+    formData.append('entry.1121796741',scores.w+'/20');
+    formData.append('entry.1435469716',scores.s+'/20');
+    formData.append('entry.1998281944',scores.g+'/8');
+    formData.append('entry.1207114914',pct+'%');
+    formData.append('entry.939912807',writingText||'');
+    formData.append('entry.2086302086',transcriptText);
+
+    function showSuccess(){
+        if(btn){btn.textContent='Submitted ✓';btn.style.background='#22c55e';btn.disabled=true;btn.style.display='none';}
+        if(warnEl)warnEl.style.display='none';
+        if(successEl)successEl.style.display='block';
+    }
+    function showFailure(){
+        if(btn){btn.disabled=false;btn.textContent='Failed - Tap to Retry';btn.style.background='#ef4444';}
+        if(warnEl){warnEl.style.display='block';warnEl.textContent='⚠️ Submission failed. Check your internet and tap Retry.';}
+    }
+
+    // 6s timeout fallback for mobile (no-cors never errors on success)
+    let done=false;
+    const timeoutId=setTimeout(function(){if(!done){done=true;showSuccess();}},6000);
+
+    fetch('https://docs.google.com/forms/d/e/1FAIpQLSf9uEs5MqWLveyoaMBxeWx3pW1b90siwgaom766CpwqnOI7Dg/formResponse',
+          {method:'POST',mode:'no-cors',body:formData})
+        .then(function(){if(done)return;done=true;clearTimeout(timeoutId);showSuccess();})
+        .catch(function(){if(done)return;done=true;clearTimeout(timeoutId);showFailure();});
+}
+</script>
+</body>
+</html>
