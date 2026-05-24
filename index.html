@@ -589,18 +589,36 @@ function addMessage(sender,text){
     container.scrollTop=container.scrollHeight;
 }
 
+// speakText calls `callback` exactly once. speechSynthesis is unreliable:
+// onend sometimes never fires (engine stall, tab blur, some Mac/browser
+// combos). A length-based safety timer guarantees the callback still runs,
+// so the mic button is never left permanently disabled.
 function speakText(text,callback){
+    var fired=false;
+    function done(){
+        if(fired)return;
+        fired=true;
+        if(callback)callback();
+    }
     if('speechSynthesis' in window){
-        window.speechSynthesis.cancel();
-        const utterance=new SpeechSynthesisUtterance(text);
+        try{window.speechSynthesis.cancel();}catch(e){}
+        var utterance=new SpeechSynthesisUtterance(text);
         utterance.rate=0.9;
         utterance.lang='en-US';
-        utterance.onend=function(){
-            if(callback)callback();
-        };
-        window.speechSynthesis.speak(utterance);
+        utterance.onend=function(){done();};
+        utterance.onerror=function(){done();};
+        // Safety net: estimate speech length (~14 chars/sec at rate 0.9)
+        // and re-enable the mic even if onend/onerror never arrive.
+        var estMs=Math.max(4000,Math.min(20000,(text.length/14)*1000+3000));
+        setTimeout(done,estMs);
+        try{
+            window.speechSynthesis.speak(utterance);
+        }catch(e){
+            // If speech can't even start, don't wait — let the student continue.
+            setTimeout(done,300);
+        }
     }else{
-        if(callback)setTimeout(callback,1500);
+        setTimeout(done,1500);
     }
 }
 
@@ -824,7 +842,9 @@ function submitFinal(){
     goTo('results');
 }
 
+let submitted=false;
 function submitToTeacher(){
+    if(submitted)return;submitted=true;
     const btn=document.getElementById('submitBtn');
     const warnEl=document.getElementById('notSubmittedWarning');
     const successEl=document.getElementById('submittedSuccess');
@@ -852,6 +872,7 @@ function submitToTeacher(){
         if(successEl)successEl.style.display='block';
     }
     function showFailure(){
+        submitted=false;
         if(btn){btn.disabled=false;btn.textContent='Failed - Tap to Retry';btn.style.background='#ef4444';}
         if(warnEl){warnEl.style.display='block';warnEl.textContent='⚠️ Submission failed. Check your internet and tap Retry.';}
     }
